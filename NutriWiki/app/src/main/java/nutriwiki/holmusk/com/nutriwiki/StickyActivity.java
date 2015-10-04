@@ -3,6 +3,7 @@ package nutriwiki.holmusk.com.nutriwiki;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -13,27 +14,26 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
-
-public class MainActivity extends AppCompatActivity {
+public class StickyActivity extends AppCompatActivity {
 
     private MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_default);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
-        searchView.setVoiceSearch(true);
+        searchView.setVoiceSearch(false);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
-        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                    // Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
+                        .show();
                 return false;
             }
 
@@ -55,19 +55,15 @@ public class MainActivity extends AppCompatActivity {
                 //Do some magic
             }
         });
-
-      //  searchView.closeSearch();
-        searchView.showSearch();
-      //  searchView.requestFocus();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
+
         return true;
     }
 
