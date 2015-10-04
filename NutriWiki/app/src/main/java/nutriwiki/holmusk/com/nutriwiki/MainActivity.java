@@ -28,13 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setVoiceSearch(true);
-      //  searchView.setCursorDrawable(R.drawable.color_cursor_white);
+        searchView.setCursorDrawable(R.drawable.custom_cursor);
         searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //     Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
-                //.show();
+                    // Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG).show();
                 return false;
             }
 
@@ -59,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
       //  searchView.closeSearch();
         searchView.showSearch();
+        searchView.requestFocus();
     }
 
     @Override
