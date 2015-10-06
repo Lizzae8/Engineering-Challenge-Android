@@ -42,6 +42,6 @@ dependencies {
         transitive = true;
     }
     compile 'com.bowyer.app:fab-toolbar:1.1.0@aar'
-
+    compile 'com.dlazaro66.wheelindicatorview:WheelIndicatorView:1.0.0'
 
 }
