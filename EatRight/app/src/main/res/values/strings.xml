@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Eat Right</string>
+    <string name="action_search">Search</string>
+    <string name="title_activity_search">SearchActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello my food fragment</string>
+    <string name="hello_stat_fragment">Hello stat fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+</resources>
