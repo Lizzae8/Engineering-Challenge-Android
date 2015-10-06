@@ -14,14 +14,8 @@ import com.holmusk.eatright.ui.fragments.MyStatFragment;
  */
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private String[] mFragmentTitle = {"My Stat", "My Food"};
-
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
-    }
-
-    public CharSequence getPageTitle(int position) {
-        return mFragmentTitle[position];
     }
 
     @Override
@@ -38,6 +32,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return mFragmentTitle.length;
+        return 2;
     }
 }

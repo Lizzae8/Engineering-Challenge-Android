@@ -1,12 +1,16 @@
 package com.holmusk.eatright.ui.activities;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.holmusk.eatright.R;
 import com.holmusk.eatright.ui.adapters.ViewPagerAdapter;
@@ -19,17 +23,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/lobster.otf");
+        TextView title = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        title.setTypeface(tf);
+        //tx.setTypeface(custom_font);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+        setUpTabLayout(tabLayout);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+    }
+
+    private void setUpTabLayout(TabLayout tabLayout) {
+        int tabCount = tabLayout.getTabCount();
+        for (int i = 0; i < tabCount; i++) {
+            if (i == 0) {
+                tabLayout.getTabAt(i).setIcon(R.drawable.ic_home_white_36dp);
+            } else if (i == 1) {
+                tabLayout.getTabAt(i).setIcon(R.drawable.ic_local_dining_white_36dp);
+            }
+        }
     }
 
     @Override
