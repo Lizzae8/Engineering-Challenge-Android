@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bowyer.app.fabtoolbar.FabToolbar;
+import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
@@ -21,10 +22,11 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
 
 public class SummaryActivity extends AppCompatActivity implements ObservableScrollViewCallbacks{
     @Bind(R.id.scroll_view)
-    ObservableScrollView mObservableListView;
+    ObservableScrollView scrollView;
     @Bind(R.id.fabtoolbar)
     FabToolbar mFabToolbar;
     @Bind(R.id.fab)
@@ -42,6 +44,7 @@ public class SummaryActivity extends AppCompatActivity implements ObservableScro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_summary);
 
 
@@ -54,17 +57,19 @@ public class SummaryActivity extends AppCompatActivity implements ObservableScro
 
     private void initScrollView() {
 
-        mObservableListView.setScrollViewCallbacks(this);
-        WheelIndicatorItem breakFastIncatorItem = new WheelIndicatorItem(1.5f , Color.parseColor("#FF5722"));
+        scrollView.setScrollViewCallbacks(this);
+        WheelIndicatorItem breakFastIncatorItem = new WheelIndicatorItem(30f , Color.parseColor("#FF5722"));
         wheelView.addWheelIndicatorItem(breakFastIncatorItem);
-        WheelIndicatorItem lunchIndicatorItem = new WheelIndicatorItem(1.2f, Color.parseColor("#0000FF"));
+        WheelIndicatorItem lunchIndicatorItem = new WheelIndicatorItem(25f, Color.parseColor("#0000FF"));
         wheelView.addWheelIndicatorItem(lunchIndicatorItem);
-        WheelIndicatorItem dinnerIncatorItem = new WheelIndicatorItem(0.8f, Color.parseColor("#00FF00"));
+        WheelIndicatorItem dinnerIncatorItem = new WheelIndicatorItem(25f, Color.parseColor("#00FF00"));
         wheelView.addWheelIndicatorItem(dinnerIncatorItem);
-        WheelIndicatorItem othersIncatorItem = new WheelIndicatorItem(0.3f, Color.parseColor("#000000"));
+        WheelIndicatorItem othersIncatorItem = new WheelIndicatorItem(10f, Color.parseColor("#00E2F0"));
         wheelView.addWheelIndicatorItem(othersIncatorItem);
-
+        wheelView.setFilledPercent(90);
         wheelView.notifyDataSetChanged();
+        wheelView.startItemsAnimation();
+
 
     }
 

@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <FrameLayout
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RelativeLayout
@@ -35,13 +36,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:id="@+id/wheel_indicator_view"
-                    app:itemsLineWidth="13dp"
-                    app:filledPercent="40"
+                    app:itemsLineWidth="8dp"
+                    app:filledPercent="100"
+
                     app:backgroundColor="@color/white"
                     />
             </FrameLayout>
 
             <android.support.v7.widget.CardView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/cv1"
@@ -128,7 +131,231 @@
                         />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cv3"
+                >
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/person_photo3"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/avatar_denholm"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_name3"
+                        android:layout_toRightOf="@+id/person_photo3"
+                        android:layout_alignParentTop="true"
+                        android:textSize="30sp"
+                        android:text="Adam Powell"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_age3"
+                        android:layout_toRightOf="@+id/person_photo3"
+                        android:layout_below="@+id/person_name3"
+                        android:text="38 years old"
+                        />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cv4"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/person_photo4"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/avatar_denholm"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_name4"
+                        android:layout_toRightOf="@+id/person_photo4"
+                        android:layout_alignParentTop="true"
+                        android:textSize="30sp"
+                        android:text="Adam Powell"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_age4"
+                        android:layout_toRightOf="@+id/person_photo4"
+                        android:layout_below="@+id/person_name4"
+                        android:text="38 years old"
+                        />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cv5"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/person_photo5"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/avatar_denholm"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_name5"
+                        android:layout_toRightOf="@+id/person_photo5"
+                        android:layout_alignParentTop="true"
+                        android:textSize="30sp"
+                        android:text="Adam Powell"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_age5"
+                        android:layout_toRightOf="@+id/person_photo5"
+                        android:layout_below="@+id/person_name5"
+                        android:text="38 years old"
+                        />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cv6"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/person_photo6"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/avatar_denholm"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_name6"
+                        android:layout_toRightOf="@+id/person_photo6"
+                        android:layout_alignParentTop="true"
+                        android:textSize="30sp"
+                        android:text="Adam Powell"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_age6"
+                        android:layout_toRightOf="@+id/person_photo6"
+                        android:layout_below="@+id/person_name6"
+                        android:text="38 years old"
+                        />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cv7"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/person_photo7"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/avatar_denholm"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_name7"
+                        android:layout_toRightOf="@+id/person_photo7"
+                        android:layout_alignParentTop="true"
+                        android:textSize="30sp"
+                        android:text="Adam Powell"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/person_age"
+                        android:layout_toRightOf="@+id/person_photo7"
+                        android:layout_below="@+id/person_name7"
+                        android:text="38 years old"
+                        />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

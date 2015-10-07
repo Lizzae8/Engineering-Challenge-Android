@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 repositories {
     mavenCentral()
@@ -6,6 +16,7 @@ repositories {
     maven {
         url "https://jitpack.io"
     }
+    maven { url 'https://maven.fabric.io/public' }
 }
 android {
     compileSdkVersion 23
@@ -42,6 +53,16 @@ dependencies {
         transitive = true;
     }
     compile 'com.bowyer.app:fab-toolbar:1.1.0@aar'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jpardogo.materialtabstrip:library:1.1.0'
+    compile 'com.flaviofaria:kenburnsview:1.0.6'
     compile 'com.dlazaro66.wheelindicatorview:WheelIndicatorView:1.0.0'
+    compile ('com.github.florent37:materialviewpager:1.1.2@aar'){
+        transitive=true
+    }
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+        transitive = true;
+    }
+    compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
 
 }

@@ -19,11 +19,24 @@
             android:name=".SummaryActivity"
             android:label="@string/title_activity_summary"
             android:theme="@style/AppTheme" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_summary"
+            android:theme="@style/AppTheme1" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="babf598ed0dae934cef19df0afb9d28b6c23b96e" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
