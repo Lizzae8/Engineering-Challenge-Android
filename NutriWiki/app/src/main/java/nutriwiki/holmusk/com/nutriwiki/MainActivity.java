@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.crashlytics.android.Crashlytics;
@@ -48,10 +50,16 @@ public class MainActivity extends AppCompatActivity  implements ExtendedObservab
     @Bind(R.id.btn_chart)
     ImageView btnChart;
 
+    //Bind progress bars
+    @Bind(R.id.progressBarCarb)
+    ProgressBar progressBarCarb;
+
+
     private MaterialViewPager mViewPager;
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +176,12 @@ public class MainActivity extends AppCompatActivity  implements ExtendedObservab
     }
 
     private void initViews() {
+        //Progress bars
+        progressBarCarb.setMax(100);
+        progressBarCarb.setProgress(50);
+        progressBarCarb.getProgressDrawable().setColorFilter(getResources().getColor(R.color.orange500), PorterDuff.Mode.SRC_IN);
 
+        //Wheel View
         WheelIndicatorItem breakFastIncatorItem = new WheelIndicatorItem(30f , Color.parseColor("#00933B"));
         wheelView.addWheelIndicatorItem(breakFastIncatorItem);
         WheelIndicatorItem lunchIndicatorItem = new WheelIndicatorItem(25f, Color.parseColor("#F90101"));
@@ -180,6 +193,8 @@ public class MainActivity extends AppCompatActivity  implements ExtendedObservab
         wheelView.setFilledPercent(90);
         wheelView.notifyDataSetChanged();
         wheelView.startItemsAnimation();
+
+
     }
 
     @OnClick(R.id.fab)

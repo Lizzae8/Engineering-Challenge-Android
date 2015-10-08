@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white400"
+                android:textColor="@color/white100"
                 android:text="Your avg:2500"/>
         </LinearLayout>
 
@@ -61,7 +61,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white100"
+
                 android:text="CARB"/>
+            <ProgressBar android:id="@+id/progressBarCarb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleHorizontal"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,6 +77,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white100"
+
                 android:text="PROTEIN"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -81,6 +89,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white100"
+
                 android:text="FAT"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -98,7 +108,8 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"                android:textColor="@color/white100"
+
                 android:text="Breakfast"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -108,7 +119,8 @@
             <TextView
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"                android:textColor="@color/white100"
+
                 android:text="Lunch"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -117,7 +129,8 @@
 
             <TextView
                 android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
+                android:layout_width="wrap_content"                android:textColor="@color/white100"
+
                 android:layout_height="wrap_content"
                 android:text="Dinner"/>
             <TextView
