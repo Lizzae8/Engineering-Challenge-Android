@@ -8,4 +8,15 @@
     <color name="accent">#F4FF81</color>
     <color name="window_background">#FFF5F5F5</color>
     <color name="white">#FFFFFF</color>
+    <color name="orange500">#FF9800</color>
+    <color name="orange700">#F57C00</color>
+    <color name="white100">#F5F5F5</color>
+    <color name="white200">#EEEEEE</color>
+    <color name="white300">#E0E0E0</color>
+    <color name="white400">#BDBDBD</color>
+
+    <color name="google_blue">#0266C8</color>
+    <color name="google_red">#F90101</color>
+    <color name="google_yellow">#F2B50F</color>
+    <color name="google_green">#00933B</color>
 </resources>

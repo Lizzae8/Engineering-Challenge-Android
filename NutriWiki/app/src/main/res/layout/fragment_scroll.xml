@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+<nutriwiki.holmusk.com.nutriwiki.ExtendedObservableScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
@@ -12,7 +12,6 @@
         android:orientation="vertical">
 
         <include layout="@layout/material_view_pager_placeholder"/>
-
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,14 +22,140 @@
             android:background="@android:color/white"
             app:cardElevation="4dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                >
 
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/person_photo2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/person_name2"
+                    android:layout_toRightOf="@+id/person_photo2"
+                    android:layout_alignParentTop="true"
+                    android:textSize="30sp"
+                    android:text="Moss"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/person_age2"
+                    android:layout_toRightOf="@+id/person_photo2"
+                    android:layout_below="@+id/person_name2"
+                    android:text="22 years old"
+                    />
+            </RelativeLayout>
+
 
         </android.support.v7.widget.CardView>
-    </LinearLayout>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/cardMarginVertical"
+            android:layout_marginLeft="@dimen/cardMarginHorizontal"
+            android:layout_marginRight="@dimen/cardMarginHorizontal"
+            android:layout_marginTop="@dimen/cardMarginVertical"
+            android:background="@android:color/white"
+            app:cardElevation="4dp">
 
-</com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                >
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/person_photo3"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/person_name3"
+                    android:layout_toRightOf="@+id/person_photo3"
+                    android:layout_alignParentTop="true"
+                    android:textSize="30sp"
+                    android:text="Jen"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/person_age3"
+                    android:layout_toRightOf="@+id/person_photo3"
+                    android:layout_below="@+id/person_name3"
+                    android:text="22 years old"
+                    />
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/cardMarginVertical"
+            android:layout_marginLeft="@dimen/cardMarginHorizontal"
+            android:layout_marginRight="@dimen/cardMarginHorizontal"
+            android:layout_marginTop="@dimen/cardMarginVertical"
+            android:background="@android:color/white"
+            app:cardElevation="4dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                >
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/person_photo1"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/person_name1"
+                    android:layout_toRightOf="@+id/person_photo1"
+                    android:layout_alignParentTop="true"
+                    android:textSize="30sp"
+                    android:text="Roy"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/person_age1"
+                    android:layout_toRightOf="@+id/person_photo1"
+                    android:layout_below="@+id/person_name1"
+                    android:text="26 years old"
+                    />
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="600dp"></LinearLayout>
+    </LinearLayout>
+</nutriwiki.holmusk.com.nutriwiki.ExtendedObservableScrollView>

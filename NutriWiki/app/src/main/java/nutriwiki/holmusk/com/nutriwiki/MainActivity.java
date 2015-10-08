@@ -1,5 +1,8 @@
 package nutriwiki.holmusk.com.nutriwiki;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -7,67 +10,85 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity  implements ExtendedObservableScrollView.ExtendedObservableScrollViewCallback{
     @Bind(R.id.wheel_indicator_view)
     WheelIndicatorView wheelView;
     @Bind(R.id.fab)
     FloatingActionButton actionButton;
+    @Bind(R.id.fabtoolbar)
+    FabToolbar fabToolbar;
+
+    //Binds the action buttons
+    @Bind(R.id.btn_logfood)
+    ImageView btnLogFood;
+    @Bind(R.id.btn_search)
+    ImageView btnSearch;
+    @Bind(R.id.btn_chart)
+    ImageView btnChart;
 
     private MaterialViewPager mViewPager;
+    private DrawerLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
-
-
-        //set floating button to FabToolbar
-
-        if (!BuildConfig.DEBUG)
-            Fabric.with(this, new Crashlytics());
-
         setTitle("");
 
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
 
         toolbar = mViewPager.getToolbar();
+        //mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
 
             final ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-         //       actionBar.setDisplayHomeAsUpEnabled(true);
-           //     actionBar.setDisplayShowHomeEnabled(true);
-           //     actionBar.setDisplayShowTitleEnabled(true);
-          //      actionBar.setDisplayUseLogoEnabled(false);
-         //       actionBar.setHomeButtonEnabled(true);
+
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setDisplayShowHomeEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.setDisplayUseLogoEnabled(false);
+                actionBar.setHomeButtonEnabled(false);
+
             }
+
         }
 
+        //mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, 0, 0);
+        //mDrawer.setDrawerListener(mDrawerToggle);
 
+        mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-
             @Override
             public Fragment getItem(int position) {
                 switch (position % 4) {
@@ -78,22 +99,24 @@ public class MainActivity extends AppCompatActivity  {
                     //case 2:
                     //    return WebViewFragment.newInstance();
                     default:
-                        return ScrollFragment.newInstance();
+                        ScrollFragment fragment = ScrollFragment.newInstance();
+                        fragment.registerScrollCallback(MainActivity.this);
+                        return fragment;
                 }
             }
 
             @Override
             public int getCount() {
-                return 3;
+                return 2;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
                 switch (position % 4) {
                     case 0:
-                        return "Selection";
+                        return "YESTERDAY";
                     case 1:
-                        return "Actualités";
+                        return "TODAY";
                     case 2:
                         return "Professionnel";
                     case 3:
@@ -106,27 +129,27 @@ public class MainActivity extends AppCompatActivity  {
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
             public HeaderDesign getHeaderDesign(int page) {
-                ColorDrawable colorDrawable = new ColorDrawable(0xFFFFFF);
+                ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.theme_primary));
 
                 switch (page) {
 
                     case 0:
-                        Drawable theme = getResources().getDrawable(R.mipmap.theme_sun);
+                        Drawable theme = getResources().getDrawable(R.mipmap.white_blue_fade_background);
 
                         return HeaderDesign.fromColorResAndDrawable(
-                                R.color.green,
+                                R.color.theme_primary,
                                 colorDrawable);
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
-                                R.color.blue,
+                                R.color.theme_primary,
                                 colorDrawable);
                     case 2:
                         return HeaderDesign.fromColorResAndDrawable(
-                                R.color.cyan,
+                                R.color.theme_primary,
                                 colorDrawable);
                     case 3:
                         return HeaderDesign.fromColorResAndUrl(
-                                R.color.red,
+                                R.color.theme_primary,
                                 "http://www.tothemobile.com/wp-content/uploads/2014/07/original.jpg");
                 }
 
@@ -138,62 +161,55 @@ public class MainActivity extends AppCompatActivity  {
 
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-       // MaterialViewPagerHelper.registerScrollView(this,scrollView , null);
-
-//        View logo = findViewById(R.id.logo_white);
-//        if (logo != null)
-//            logo.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mViewPager.notifyHeaderChanged();
-//                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-//                }
-//            });
         initViews();
+        fabToolbar.setFab(actionButton);
+
+
     }
 
     private void initViews() {
 
-        WheelIndicatorItem breakFastIncatorItem = new WheelIndicatorItem(30f , Color.parseColor("#FF5722"));
+        WheelIndicatorItem breakFastIncatorItem = new WheelIndicatorItem(30f , Color.parseColor("#00933B"));
         wheelView.addWheelIndicatorItem(breakFastIncatorItem);
-        WheelIndicatorItem lunchIndicatorItem = new WheelIndicatorItem(25f, Color.parseColor("#0000FF"));
+        WheelIndicatorItem lunchIndicatorItem = new WheelIndicatorItem(25f, Color.parseColor("#F90101"));
         wheelView.addWheelIndicatorItem(lunchIndicatorItem);
-        WheelIndicatorItem dinnerIncatorItem = new WheelIndicatorItem(25f, Color.parseColor("#00FF00"));
+        WheelIndicatorItem dinnerIncatorItem = new WheelIndicatorItem(25f, Color.parseColor("#F2B50F"));
         wheelView.addWheelIndicatorItem(dinnerIncatorItem);
-        WheelIndicatorItem othersIncatorItem = new WheelIndicatorItem(10f, Color.parseColor("#00E2F0"));
+        WheelIndicatorItem othersIncatorItem = new WheelIndicatorItem(10f, Color.parseColor("#0266C8"));
         wheelView.addWheelIndicatorItem(othersIncatorItem);
         wheelView.setFilledPercent(90);
         wheelView.notifyDataSetChanged();
         wheelView.startItemsAnimation();
-
-
-        //Set up circular FAB menu
-        int size = actionButton.getLayoutParams().height;
-        ColorDrawable colorDrawable = new ColorDrawable(0xFF0000FF);
-
-
-        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-
-        ImageView itemLogfood = new ImageView(this);
-        itemLogfood.setBackgroundResource(R.drawable.ic_logfood);
-        SubActionButton btnLogfood = itemBuilder.setContentView(itemLogfood).build();
-
-        ImageView itemChart = new ImageView(this);
-        
-        itemLogfood.setImageResource(R.drawable.ic_chart);
-        SubActionButton btnChart = itemBuilder.setContentView(itemChart).build();
-
-        ImageView itemSearch = new ImageView(this);
-        itemLogfood.setBackgroundResource(R.drawable.ic_chart);
-        SubActionButton btnSearch = itemBuilder.setBackgroundDrawable(colorDrawable).setContentView(itemSearch).build();
-
-        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(btnLogfood)
-                .addSubActionView(btnChart)
-                .addSubActionView(btnSearch)
-                .attachTo(actionButton)
-                .build();
     }
+
+    @OnClick(R.id.fab)
+    void onFabClick() {
+        fabToolbar.expandFab();
+    }
+
+    @OnClick(R.id.btn_logfood)
+    void onClickCall() {
+        iconAnim(btnLogFood);
+    }
+
+    @OnClick(R.id.btn_search)
+    void onClickEmail() {
+        iconAnim(btnSearch);
+    }
+
+    @OnClick(R.id.btn_chart)
+    void onClickForum() {
+        iconAnim(btnChart);
+    }
+
+    private void iconAnim(View icon) {
+        Animator iconAnim = ObjectAnimator.ofPropertyValuesHolder(
+                icon,
+                PropertyValuesHolder.ofFloat("scaleX", 1f, 1.8f, 1f),
+                PropertyValuesHolder.ofFloat("scaleY", 1f, 1.8f, 1f));
+        iconAnim.start();
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -202,5 +218,31 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return  super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (fabToolbar.isFabExpanded()) {
+            fabToolbar.slideOutFab();
+        }
+        else
+            super.onBackPressed();
+    }
+
+    public void onClickEvent(View v){
+        Log.e("MainActivity", "Main view clicked");
+    }
+
+
+    /**
+     * Hide Floating Action Bar menu when user scroll the screen instead of pressing on any button.
+     * @param <T>
+     */
+    @Override
+    public <T> void onScrolled() {
+       // Log.e("ExtendedScrollCallback","Fired");
+        if (fabToolbar.isFabExpanded())
+            fabToolbar.slideOutFab();
+
     }
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
-
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 
 /**
@@ -16,13 +15,15 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
  */
 public class ScrollFragment extends Fragment {
 
-    public ObservableScrollView getmScrollView(){
-        return this.mScrollView;
-    }
-    private ObservableScrollView mScrollView;
 
-    public static ScrollFragment newInstance() {
+    private ExtendedObservableScrollView mScrollView;
+    private ExtendedObservableScrollView.ExtendedObservableScrollViewCallback callback;
+    public  static ScrollFragment newInstance() {
         return new ScrollFragment();
+    }
+
+    public void registerScrollCallback(ExtendedObservableScrollView.ExtendedObservableScrollViewCallback callback){
+        this.callback = callback;
     }
 
     @Override
@@ -33,8 +34,8 @@ public class ScrollFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mScrollView = (ObservableScrollView) view.findViewById(R.id.scrollView);
-
-        MaterialViewPagerHelper.registerScrollView(getActivity(), mScrollView, null);
+        mScrollView = (ExtendedObservableScrollView) view.findViewById(R.id.scrollView);
+        mScrollView.registerCallback(callback);
+        MaterialViewPagerHelper.registerScrollView(getActivity(), (ObservableScrollView)mScrollView, null);
     }
 }

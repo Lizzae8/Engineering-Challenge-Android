@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:id="@+id/coordinatorLayout"
     tools:context=".MainActivity">
 
     <com.github.florent37.materialviewpager.MaterialViewPager
@@ -15,23 +17,23 @@
         app:viewpager_color="@color/colorPrimary"
         app:viewpager_displayToolbarWhenSwipe="true"
         app:viewpager_enableToolbarElevation="true"
-        app:viewpager_headerAdditionalHeight="30dp"
+        app:viewpager_headerAdditionalHeight="20dp"
         app:viewpager_headerAlpha="1.0"
         app:viewpager_headerHeight="250dp"
         app:viewpager_hideLogoWithFade="true"
         app:viewpager_hideToolbarAndTitle="false"
         app:viewpager_imageHeaderDarkLayerAlpha="0.2"
         app:viewpager_logo="@layout/header_logo"
-        app:viewpager_logoMarginTop="30dp"
+        app:viewpager_logoMarginTop="40dp"
         app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
         app:viewpager_parallaxHeaderFactor="1.5"
         app:viewpager_transparentToolbar="false"
-
         />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         style="@style/floating_action_button"
+        app:backgroundTint="@color/orange500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -42,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:tb_color="@color/primary"
+        app:tb_color="@color/orange500"
         app:tb_container_gravity="center">
 
         <LinearLayout
@@ -51,13 +53,12 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/call"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/ic_search"
+                    android:id="@+id/btn_search"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_centerHorizontal="true"
@@ -67,13 +68,12 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/email"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/ic_logfood"
+                    android:id="@+id/btn_logfood"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
@@ -83,19 +83,17 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/forum"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/ic_chart"
+                    android:id="@+id/btn_chart"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_centerHorizontal="true"
                     android:scaleType="center"
                     android:src="@drawable/ic_chart"/>
-
             </RelativeLayout>
 
         </LinearLayout>
