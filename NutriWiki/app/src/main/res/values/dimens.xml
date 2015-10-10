@@ -5,4 +5,7 @@
     <dimen name="spacing_large">10dp</dimen>
     <dimen name="spacing_medium">6dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="header_height">230dip</dimen>
+    <dimen name="tabs_height">64dip</dimen>
+
 </resources>

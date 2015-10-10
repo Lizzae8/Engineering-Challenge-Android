@@ -1,4 +1,4 @@
-package nutriwiki.holmusk.com.nutriwiki;
+package com.holmusk.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

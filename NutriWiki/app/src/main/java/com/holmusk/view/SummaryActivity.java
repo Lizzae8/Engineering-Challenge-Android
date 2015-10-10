@@ -1,4 +1,4 @@
-package nutriwiki.holmusk.com.nutriwiki;
+package com.holmusk.view;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -23,6 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
+import nutriwiki.holmusk.com.nutriwiki.R;
 
 public class SummaryActivity extends AppCompatActivity implements ObservableScrollViewCallbacks{
     @Bind(R.id.scroll_view)

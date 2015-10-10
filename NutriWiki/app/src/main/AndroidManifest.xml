@@ -2,41 +2,45 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nutriwiki.holmusk.com.nutriwiki" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".SearchFoodActivity"
+            android:name="com.holmusk.view.SearchFoodActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity android:name="com.holmusk.view.ViewFoodActivity" >
+        </activity>
+        <activity
+            android:name="com.holmusk.view.SummaryActivity"
+            android:label="@string/title_activity_summary" >
 
-        </activity>
-        <activity android:name=".ViewFoodActivity" >
-            
-        </activity>
-        <activity
-            android:name=".SummaryActivity"
-            android:label="@string/title_activity_summary"
-            android:theme="@style/AppTheme" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_summary"
-            android:theme="@style/AppTheme1" >
+            android:name="com.holmusk.view.MainActivity"
+            android:theme="@style/AppTheme"
+            android:label="@string/title_activity_summary" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="babf598ed0dae934cef19df0afb9d28b6c23b96e" />
+
+        <activity android:name="com.holmusk.view.RecyclerViewTest" >
+        </activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

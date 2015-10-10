@@ -4,140 +4,252 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:background="@color/google_blue"
+    android:layout_height="230dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
+        android:text="SUMMARY"
         android:textColor="@color/orange500"
-        android:textStyle="bold"
-        android:text="SUMMARY"/>
-    <RelativeLayout
-        android:layout_marginTop="25dp"
+        android:textStyle="bold"/>
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="65%"
-                android:layout_gravity="center_horizontal"
-                android:textColor="#0000FF"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white100"
-                android:text="Your avg:2500"/>
-        </LinearLayout>
-
-        <com.dlazaro66.wheelindicatorview.WheelIndicatorView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_centerInParent="true"
-            android:id="@+id/wheel_indicator_view"
-            app:itemsLineWidth="5dp"
-            app:filledPercent="100"
-            app:backgroundColor="@android:color/white"
-            />
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp">
+            android:orientation="vertical">
+            <FrameLayout
+                android:id="@+id/wheel_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                >
+                <com.dlazaro66.wheelindicatorview.WheelIndicatorView
+                    android:id="@+id/wheel_indicator_view"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:backgroundColor="@android:color/white"
+                    app:filledPercent="100"
+                    app:itemsLineWidth="5dp"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="80%"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Your avg\n2500 kCal"
+                        android:textColor="@color/white100"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+            </FrameLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white100"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Breakfast"
+                        android:textColor="@color/lightgreenA400"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="400 kCal"
+                        android:textColor="@color/white100"
+                        android:textSize="11sp"/>
 
-                android:text="CARB"/>
-            <ProgressBar android:id="@+id/progressBarCarb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?android:attr/progressBarStyleHorizontal"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="96gr left"/>
-
-            <TextView
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white100"
-
-                android:text="PROTEIN"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="69gr left"/>
-
-            <TextView
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white100"
-
-                android:text="FAT"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="35gr left"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lunch"
+                        android:textColor="@color/google_yellow"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="300 kCal"
+                        android:textColor="@color/white100"
+                        android:textSize="11sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dinner"
+                        android:textColor="@color/purpleA200"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="350 kCal"
+                        android:textColor="@color/white100"
+                        android:textSize="11sp"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:gravity="right"
             android:orientation="vertical"
-            android:layout_marginRight="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                android:textColor="@color/white100"
-
-                android:text="Breakfast"/>
-            <TextView
+            android:paddingRight="10dp">
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="400 kCal"/>
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/lbl_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="FAT"
+                    android:textColor="@color/orange300"
+                    android:textSize="14sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/lbl_fat"
+                    android:layout_toRightOf="@id/lbl_fat"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100g eaten"
+                        android:textColor="@color/white100"
+                        android:textSize="10sp" />
+                    <ProgressBar android:id="@+id/progressBarFat"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
 
-            <TextView
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                android:textColor="@color/white100"
+                </LinearLayout>
 
-                android:text="Lunch"/>
-            <TextView
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="300 kCal"/>
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/lbl_carb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="CARB"
+                    android:textColor="@color/orange300"
+                    android:textSize="14sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/lbl_carb"
+                    android:layout_toRightOf="@id/lbl_carb"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100g eaten"
+                        android:textColor="@color/white100"
+                        android:textSize="10sp" />
+                    <ProgressBar android:id="@+id/progressBarCarb"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
 
-            <TextView
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"                android:textColor="@color/white100"
+            </RelativeLayout>
 
-                android:layout_height="wrap_content"
-                android:text="Dinner"/>
-            <TextView
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="350 kCal"/>
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/lbl_protein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="PROTEIN"
+                    android:textColor="@color/orange300"
+                    android:textSize="14sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/lbl_protein"
+                    android:layout_toRightOf="@id/lbl_protein"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100g eaten"
+                        android:textColor="@color/white100"
+                        android:textSize="10sp" />
+                    <ProgressBar android:id="@+id/progressBarProtein"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+
         </LinearLayout>
-    </RelativeLayout>
+
+
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -1,34 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:id="@+id/coordinatorLayout"
     tools:context=".MainActivity">
-
-    <com.github.florent37.materialviewpager.MaterialViewPager
-        android:id="@+id/materialViewPager"
+    <include layout="@layout/toolbar"/>
+    <ru.noties.scrollable.ScrollableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:viewpager_animatedHeaderImage="false"
-        app:viewpager_color="@color/colorPrimary"
-        app:viewpager_displayToolbarWhenSwipe="true"
-        app:viewpager_enableToolbarElevation="true"
-        app:viewpager_headerAdditionalHeight="20dp"
-        app:viewpager_headerAlpha="1.0"
-        app:viewpager_headerHeight="250dp"
-        app:viewpager_hideLogoWithFade="true"
-        app:viewpager_hideToolbarAndTitle="false"
-        app:viewpager_imageHeaderDarkLayerAlpha="0.2"
-        app:viewpager_logo="@layout/header_logo"
-        app:viewpager_logoMarginTop="40dp"
-        app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
-        app:viewpager_parallaxHeaderFactor="1.5"
-        app:viewpager_transparentToolbar="false"
-        />
+        android:id="@+id/scrollable_layout"
+        app:scrollable_maxScroll="@dimen/header_height"
+        app:scrollable_considerIdleMillis="125"
+        app:scrollable_friction="0.075"
+        app:scrollable_closeUpAnimationMillis="250"
+        app:scrollable_defaultCloseUp="true"
+        app:scrollable_scrollerFlywheel="false"
+        android:layout_marginTop="?android:attr/actionBarSize"
+
+        app:scrollable_closeUpAnimatorInterpolator="@android:anim/accelerate_decelerate_interpolator">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/toolbar_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include android:id="@+id/header"
+                android:background="@color/google_blue"
+                layout="@layout/header_logo"
+                />
+
+            <!--<ru.noties.scrollable.sample.TabsLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/tabs_height"-->
+            <!--android:background="@color/tabs_background"-->
+            <!--android:id="@+id/tabs" />-->
+            <com.astuetz.PagerSlidingTabStrip
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:pstsPaddingMiddle="true"
+                app:pstsDividerPadding="20dp"
+                app:pstsIndicatorColor="#FFF"
+                app:pstsIndicatorHeight="2dp"
+                app:pstsShouldExpand="true"
+                app:pstsTabPaddingLeftRight="10dp"
+                app:pstsTabTextAllCaps="true"
+                app:pstsTabTextColor="@color/white"
+                android:background="@color/google_blue"
+                tools:background="#A333"/>
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/tabs_height"
+            android:id="@+id/view_pager" />
+
+    </ru.noties.scrollable.ScrollableLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

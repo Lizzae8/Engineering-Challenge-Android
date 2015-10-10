@@ -1,4 +1,4 @@
-package nutriwiki.holmusk.com.nutriwiki;
+package com.holmusk.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
+
+import nutriwiki.holmusk.com.nutriwiki.R;
 
 public class SearchFoodActivity extends AppCompatActivity {
 
