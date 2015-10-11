@@ -21,6 +21,7 @@ import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
+import com.holmusk.restapi.RestInterface;
 import com.holmusk.scrollableviewpager.BaseFragment;
 import com.holmusk.scrollableviewpager.RecyclerViewFragment;
 
@@ -33,6 +34,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 import nutriwiki.holmusk.com.nutriwiki.R;
+import retrofit.Call;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
 import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnScrollChangedListener;
 import ru.noties.scrollable.ScrollableLayout;
@@ -138,6 +142,26 @@ public class MainActivity extends AppCompatActivity {
         /*Bind Floating action button to FABtoolbar */
         fabToolbar.setFab(actionButton);
 
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.API_BASE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RestInterface service = retrofit.create(RestInterface.class);
+        Call<String> result = service.search("octocat");
+//        result.enqueue(new retrofit.Callback<T>() {
+//
+//        });
+
+        try {
+            String res = result.execute().body();
+            Log.e("Query: octocat","result:"+res);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
