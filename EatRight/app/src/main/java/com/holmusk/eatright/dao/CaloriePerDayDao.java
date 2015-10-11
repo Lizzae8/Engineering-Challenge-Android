@@ -14,6 +14,7 @@ import io.realm.Realm;
 public class CaloriePerDayDao {
 
     private Realm mRealm;
+    private static final float MAX_KCAL_VALUE = 50000;
 
     public CaloriePerDayDao(Context context) {
         mRealm = DaoFactory.getInstance(context);
@@ -36,6 +37,9 @@ public class CaloriePerDayDao {
 
     public void saveDay(CaloriePerDay caloriePerDay, float newCalorie) {
         mRealm.beginTransaction();
+        if (newCalorie >= MAX_KCAL_VALUE) {
+            newCalorie = MAX_KCAL_VALUE;
+        }
         caloriePerDay.setCalories(newCalorie);
         mRealm.copyToRealmOrUpdate(caloriePerDay);
         mRealm.commitTransaction();
