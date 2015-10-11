@@ -3,6 +3,7 @@ package com.holmusk.eatright.ui.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.widget.Toast;
 
 import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
@@ -81,6 +82,7 @@ public class MyStatFragment extends BaseFragment implements MyStatView {
     @OnClick(R.id.resetDataBtn)
     public void resetData() {
         mPresenter.getChartValues(true);
+        Toast.makeText(getActivity(), "Data reset", Toast.LENGTH_SHORT).show();
     }
 
     @Override
