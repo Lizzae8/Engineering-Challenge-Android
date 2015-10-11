@@ -37,10 +37,9 @@
                 android:orientation="vertical">
 
                 <com.db.chart.view.LineChartView
-                    xmlns:chart="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/linechart"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="@dimen/line_chart_height"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:paddingLeft="20dp"

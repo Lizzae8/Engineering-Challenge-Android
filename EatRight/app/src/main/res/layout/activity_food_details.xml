@@ -51,7 +51,7 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="@dimen/pie_chart_height"
                 android:layout_marginLeft="@dimen/chart_horizontal_margin"
                 android:layout_marginRight="@dimen/chart_horizontal_margin"/>
 
