@@ -1,8 +1,3 @@
-# Android-Developer-Challenge
-
-`version 1.6`
-`challenge status: open`
-
 ## Completed features
 * Targeted sdkVersion 23 with minSdkVersion being 16.
 * Developed using MVP design pattern.
@@ -15,6 +10,11 @@
 * Used RealmIO as data storage.
 * Used Retrofit for network call.
 * Check FoodDetailsPresenter.java for time taken for query to complete log, FoodDao.java for time taken to save and retrieve data from local database.
+
+# Android-Developer-Challenge
+
+`version 1.6`
+`challenge status: open`
 
 Welcome! We've been expecting you. Holmusk is a big data based high tech company specializing in healthcare in Singapore.
 
