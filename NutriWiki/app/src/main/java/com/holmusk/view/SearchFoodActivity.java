@@ -5,43 +5,102 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.holmusk.model.Food;
+import com.holmusk.model.Portion;
+import com.holmusk.restapi.RestHandler;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import nutriwiki.holmusk.com.nutriwiki.R;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class SearchFoodActivity extends AppCompatActivity {
+    @Bind(R.id.search_view)
+    MaterialSearchView searchView;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.recycler_view)
+    RecyclerView foodList;
+    List<FoodItem> foodItems;
+    FoodListAdapter adapter;
 
-    private MaterialSearchView searchView;
+    RestHandler restHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
+        setContentView(R.layout.activity_searchfood);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        restHandler = RestHandler.getInstance();
         setSupportActionBar(toolbar);
+        initSearchView();
 
-        searchView = (MaterialSearchView) findViewById(R.id.search_view);
-        searchView.setVoiceSearch(false);
+        foodList.setLayoutManager(new LinearLayoutManager(this));
+
+
+    }
+
+    private void initSearchView(){
+        searchView.setHint("Search food");
+        searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
+
+        //TODO: create query suggestion from search history
+        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
                         .show();
+                restHandler.searchFoodWithCallback(query, new Callback<List<Food>>() {
+                    @Override
+                    public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
+                        List<Food> foodListResult= response.body();
+
+                        //Prepare the new food item list from the query response
+                        foodItems = new ArrayList<FoodItem>();
+                        for (Food foodItem:foodListResult){
+                            Log.e("Food found: ",foodItem.getName());
+                            List<Portion> portionList = foodItem.getPortions();
+
+                                foodItems.add(new FoodItem(foodItem.getName(),portionList.get(0).getNutrients().getImportant().getCalories().getValue(),portionList.get(0).getName(),""));
+
+                        }
+                        //Populate RecyclerView with new Adapter containing data
+                        adapter = new FoodListAdapter(foodItems);
+                        foodList.setAdapter(adapter);
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //Do some magic
+
                 return false;
             }
         });
@@ -57,8 +116,8 @@ public class SearchFoodActivity extends AppCompatActivity {
                 //Do some magic
             }
         });
+        searchView.showSearch(true);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

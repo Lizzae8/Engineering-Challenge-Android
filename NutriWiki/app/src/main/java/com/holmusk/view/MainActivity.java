@@ -3,6 +3,7 @@ package com.holmusk.view;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,8 +22,7 @@ import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
-import com.holmusk.model.Food;
-import com.holmusk.restapi.RestHandler;
+import com.holmusk.scrollableviewpager.ViewPagerAdapter;
 import com.holmusk.scrollableviewpager.BaseFragment;
 import com.holmusk.scrollableviewpager.RecyclerViewFragment;
 
@@ -35,14 +35,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 import nutriwiki.holmusk.com.nutriwiki.R;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnScrollChangedListener;
 import ru.noties.scrollable.ScrollableLayout;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String ARG_LAST_SCROLL_Y = "arg.LastScrollY"; //store last scroll position when activity is stopped
+
+    /* Bind views to objects */
     @Bind(R.id.wheel_indicator_view)
     WheelIndicatorView wheelView;
     @Bind(R.id.fab)
@@ -74,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
     PagerSlidingTabStrip tabs;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
-
-    private static final String ARG_LAST_SCROLL_Y = "arg.LastScrollY";
 
     @Bind(R.id.scrollable_layout)
      ScrollableLayout mScrollableLayout;
@@ -144,22 +142,22 @@ public class MainActivity extends AppCompatActivity {
         fabToolbar.setFab(actionButton);
 
 
-        RestHandler restHandler = RestHandler.getInstance();
-        restHandler.searchFoodWithCallback("burger", new Callback<List<Food>>() {
-            @Override
-            public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
-                Log.e("Query ","Success");
-                List<Food> foodList = response.body();
-                for (Food foodItem:foodList){
-                    Log.e("Food name",foodItem.getName());
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                t.printStackTrace();
-            }
-        });
+//        RestHandler restHandler = RestHandler.getInstance();
+//        restHandler.searchFoodWithCallback("burger", new Callback<List<Food>>() {
+//            @Override
+//            public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
+//                Log.e("Query ","Success");
+//                List<Food> foodList = response.body();
+//                for (Food foodItem:foodList){
+//                    Log.e("Food name",foodItem.getName());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable t) {
+//                t.printStackTrace();
+//            }
+//        });
 
 
 
@@ -214,11 +212,35 @@ public class MainActivity extends AppCompatActivity {
         iconAnim(btnChart);
     }
 
-    private void iconAnim(View icon) {
+    private void iconAnim(final View icon) {
         Animator iconAnim = ObjectAnimator.ofPropertyValuesHolder(
                 icon,
                 PropertyValuesHolder.ofFloat("scaleX", 1f, 1.8f, 1f),
                 PropertyValuesHolder.ofFloat("scaleY", 1f, 1.8f, 1f));
+        iconAnim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (icon.getId()==R.id.btn_search){
+                    Intent searchFood = new Intent(MainActivity.this, SearchFoodActivity.class);
+                    startActivity(searchFood);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         iconAnim.start();
     }
 

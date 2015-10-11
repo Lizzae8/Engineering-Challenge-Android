@@ -1,14 +1,11 @@
-package com.holmusk.view;
+package com.holmusk.scrollableviewpager;
 
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 
-import com.holmusk.scrollableviewpager.BaseFragment;
-import com.holmusk.scrollableviewpager.FragmentPagerAdapterExt;
-
 import java.util.List;
 
-class ViewPagerAdapter extends FragmentPagerAdapterExt {
+public class ViewPagerAdapter extends FragmentPagerAdapterExt {
 
     private final Resources mResources;
     private final List<BaseFragment> mFragments;
@@ -39,7 +36,7 @@ class ViewPagerAdapter extends FragmentPagerAdapterExt {
         return mFragments.get(position).getTitle(mResources);
     }
 
-    boolean canScrollVertically(int position, int direction) {
+    public boolean canScrollVertically(int position, int direction) {
         return getItem(position).canScrollVertically(direction);
     }
 }
