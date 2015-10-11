@@ -1,4 +1,4 @@
-package com.holmusk.view;
+package com.holmusk.utils;
 
 /**
  * Created by gmsdvt on 10/11/15.

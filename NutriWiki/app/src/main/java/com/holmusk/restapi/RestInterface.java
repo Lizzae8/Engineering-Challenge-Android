@@ -1,5 +1,9 @@
 package com.holmusk.restapi;
 
+import com.holmusk.model.Food;
+
+import java.util.List;
+
 import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -9,6 +13,6 @@ import retrofit.http.Query;
  */
 public interface RestInterface {
     @GET("/food/search")
-    Call<String> search(@Query("q") String query);
+    Call<List<Food>> search(@Query("q") String query);
 }
 

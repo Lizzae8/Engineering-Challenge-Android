@@ -17,7 +17,7 @@ public class Potassium {
     private String unit;
     @SerializedName("value")
     @Expose
-    private Integer value;
+    private Double value;
 
     /**
      *
@@ -42,7 +42,7 @@ public class Potassium {
      * @return
      * The value
      */
-    public Integer getValue() {
+    public Double getValue() {
         return value;
     }
 
@@ -51,7 +51,7 @@ public class Potassium {
      * @param value
      * The value
      */
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

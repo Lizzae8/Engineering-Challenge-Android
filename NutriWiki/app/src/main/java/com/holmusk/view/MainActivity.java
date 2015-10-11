@@ -21,9 +21,11 @@ import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
+import com.holmusk.model.Food;
 import com.holmusk.restapi.RestInterface;
 import com.holmusk.scrollableviewpager.BaseFragment;
 import com.holmusk.scrollableviewpager.RecyclerViewFragment;
+import com.holmusk.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +37,9 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 import nutriwiki.holmusk.com.nutriwiki.R;
 import retrofit.Call;
+import retrofit.Callback;
 import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnScrollChangedListener;
@@ -149,19 +153,23 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         RestInterface service = retrofit.create(RestInterface.class);
-        Call<String> result = service.search("octocat");
-//        result.enqueue(new retrofit.Callback<T>() {
-//
-//        });
+        Call<List<Food>> call = service.search("burger");
+        call.enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
+                List<Food> foodList = response.body();
+                for (Food foodItem:foodList){
+                    Log.e("Food item",foodItem.getName());
+                }
+            }
 
-        try {
-            String res = result.execute().body();
-            Log.e("Query: octocat","result:"+res);
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
 
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+
 
     }
 
