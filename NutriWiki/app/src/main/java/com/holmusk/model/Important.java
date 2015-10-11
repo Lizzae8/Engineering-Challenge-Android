@@ -7,10 +7,14 @@ package com.holmusk.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import javax.annotation.Generated;
 
+import io.realm.RealmObject;
+
 @Generated("org.jsonschema2pojo")
-public class Important {
+public class Important extends RealmObject implements Serializable {
 
     @SerializedName("sugar")
     @Expose
@@ -41,7 +45,7 @@ public class Important {
     private Sodium sodium;
     @SerializedName("trans")
     @Expose
-    private Object trans;
+    private TransFat trans;
     @SerializedName("saturated")
     @Expose
     private Saturated saturated;
@@ -219,7 +223,7 @@ public class Important {
      * @return
      * The trans
      */
-    public Object getTrans() {
+    public TransFat getTrans() {
         return trans;
     }
 
@@ -228,7 +232,7 @@ public class Important {
      * @param trans
      * The trans
      */
-    public void setTrans(Object trans) {
+    public void setTrans(TransFat trans) {
         this.trans = trans;
     }
 

@@ -14,7 +14,7 @@ import javax.annotation.Generated;
 import io.realm.RealmObject;
 
 @Generated("org.jsonschema2pojo")
-public class Protein extends RealmObject implements Serializable {
+public class TransFat extends RealmObject implements Serializable {
 
     @SerializedName("unit")
     @Expose

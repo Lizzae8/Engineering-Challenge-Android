@@ -7,13 +7,15 @@ package com.holmusk.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 import javax.annotation.Generated;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 @Generated("org.jsonschema2pojo")
-public class Food {
+public class Food extends RealmObject implements Serializable {
 
     @SerializedName("_id")
     @Expose
@@ -26,10 +28,10 @@ public class Food {
     private String name;
     @SerializedName("portions")
     @Expose
-    private List<Portion> portions = new ArrayList<Portion>();
+    private RealmList<Portion> portions = new RealmList<Portion>();
     @SerializedName("keywords")
     @Expose
-    private List<Keyword> keywords = new ArrayList<Keyword>();
+    private RealmList<Keyword> keywords = new RealmList<Keyword>();
     @SerializedName("length")
     @Expose
     private Integer length;
@@ -93,7 +95,7 @@ public class Food {
      * @return
      * The portions
      */
-    public List<Portion> getPortions() {
+    public RealmList<Portion> getPortions() {
         return portions;
     }
 
@@ -102,7 +104,7 @@ public class Food {
      * @param portions
      * The portions
      */
-    public void setPortions(List<Portion> portions) {
+    public void setPortions(RealmList<Portion> portions) {
         this.portions = portions;
     }
 
@@ -111,7 +113,7 @@ public class Food {
      * @return
      * The keywords
      */
-    public List<Keyword> getKeywords() {
+    public RealmList<Keyword> getKeywords() {
         return keywords;
     }
 
@@ -120,7 +122,7 @@ public class Food {
      * @param keywords
      * The keywords
      */
-    public void setKeywords(List<Keyword> keywords) {
+    public void setKeywords(RealmList<Keyword> keywords) {
         this.keywords = keywords;
     }
 

@@ -11,8 +11,9 @@ import retrofit.http.Query;
 /**
  * Created by gmsdvt on 10/11/15.
  */
-public interface RestInterface {
+public interface RestEndpoints {
     @GET("/food/search")
-    Call<List<Food>> search(@Query("q") String query);
+    Call<List<Food>> searchFood(@Query("q") String query);
+
 }
 

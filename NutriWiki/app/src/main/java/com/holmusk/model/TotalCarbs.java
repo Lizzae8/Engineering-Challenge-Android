@@ -7,10 +7,14 @@ package com.holmusk.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import javax.annotation.Generated;
 
+import io.realm.RealmObject;
+
 @Generated("org.jsonschema2pojo")
-public class TotalCarbs {
+public class TotalCarbs extends RealmObject implements Serializable {
 
     @SerializedName("unit")
     @Expose
