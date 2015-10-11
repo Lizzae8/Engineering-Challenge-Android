@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:fitsSystemWindows="true"
+    tools:mContext="com.holmusk.eatright.ui.activities.AddFoodActivity">
+
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            card_view:cardCornerRadius="4dp"
+            android:layout_margin="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="25dp"
+                android:orientation="vertical">
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/foodName"
+                    android:hint="@string/food_name"
+                    style="@style/EditTextStyle"
+                    android:inputType="text"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/portion"
+                    android:hint="@string/portion_size"
+                    style="@style/EditTextStyle"
+                    android:inputType="text"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/calories"
+                    android:hint="@string/calories_in_kcal"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/protein"
+                    android:hint="@string/protein_in_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/carbohydrate"
+                    android:hint="@string/carbohydrate_in_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/fat"
+                    android:hint="@string/fat_in_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/dietary_fibre"
+                    android:hint="@string/dietary_fibre_in_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/trans"
+                    android:hint="@string/trans_fat_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/saturated"
+                    android:hint="@string/saturated_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/polyunsaturated"
+                    android:hint="@string/polyunsaturated_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/monounsaturated"
+                    android:hint="@string/monounsaturated_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/sodium"
+                    android:hint="@string/sodium_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/potassium"
+                    android:hint="@string/potassium_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/sugar"
+                    android:hint="@string/sugar_mg"
+                    style="@style/EditTextStyle"/>
+
+                <com.iangclifton.android.floatlabel.FloatLabel
+                    android:id="@+id/cholesterol"
+                    android:hint="@string/cholesterol_mg"
+                    style="@style/EditTextStyle"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

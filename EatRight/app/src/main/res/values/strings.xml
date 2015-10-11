@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Eat Right</string>
+    <string name="action_search">Search</string>
+    <string name="title_activity_search">Search</string>
+    <string name="add_food_msg">Add your food here</string>
+    <string name="search_message">What are you eating?</string>
+    <string name="title_activity_add_food">Add Food</string>
+    <string name="title_activity_food_details">FoodDetailsActivity</string>
+    <string name="track_calories">Track my calories</string>
+    <string name="action_add">Add</string>
+
+    <string name="calories">Calories</string>
+    <string name="fat">Fat</string>
+    <string name="protein">Protein</string>
+    <string name="carbohydrate">Carbohydrate</string>
+
+    <string name="dietary_fibre">Dietary fibre</string>
+    <string name="saturated">Saturated fat</string>
+    <string name="sodium">Sodium</string>
+    <string name="potassium">Potassium</string>
+    <string name="polyunsaturated">Polyunsaturated fat</string>
+    <string name="sugar">Sugar</string>
+    <string name="monounsaturated">Monounsaturated fat</string>
+    <string name="cholesterol">Cholesterol</string>
+    <string name="trans">Trans fat</string>
+
+    <string name="default_gram_value">0 g</string>
+
+    <string name="food_name">Food name</string>
+    <string name="portion_size">Portion size</string>
+    <string name="calories_in_kcal">Calories (kcal)</string>
+    <string name="protein_in_mg">Protein (mg)</string>
+    <string name="carbohydrate_in_mg">Carbohydrate (mg)</string>
+    <string name="fat_in_mg">Fat (mg)</string>
+    <string name="dietary_fibre_in_mg">Dietary fibre (mg)</string>
+    <string name="trans_fat_mg">Trans fat (mg)</string>
+    <string name="saturated_mg">Saturated fat (mg)</string>
+    <string name="sodium_mg">Sodium (mg)</string>
+    <string name="potassium_mg">Potassium (mg)</string>
+    <string name="polyunsaturated_mg">Polyunsaturated fat (mg)</string>
+    <string name="sugar_mg">Sugar (mg)</string>
+    <string name="monounsaturated_mg">Monounsaturated fat (mg)</string>
+    <string name="cholesterol_mg">Cholesterol (mg)</string>
+
+    <string name="chart_description">Your Weekly Calorie Intake (in kcal)</string>
+    <string name="dialog_title">Track calorie</string>
+    <string name="confirm">Confirm</string>
+    <string name="reset">Reset data</string>
+
+    <string-array name="days_array">
+        <item>Day 1</item>
+        <item>Day 2</item>
+        <item>Day 3</item>
+        <item>Day 4</item>
+        <item>Day 5</item>
+        <item>Day 6</item>
+        <item>Day 7</item>
+    </string-array>
+</resources>
