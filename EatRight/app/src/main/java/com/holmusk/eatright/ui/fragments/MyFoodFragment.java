@@ -3,62 +3,61 @@ package com.holmusk.eatright.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.holmusk.eatright.R;
+import com.holmusk.eatright.models.MyFood;
+import com.holmusk.eatright.ui.adapters.MyFoodAdapter;
+import com.holmusk.eatright.ui.common.BaseFragment;
+import com.holmusk.eatright.ui.presenters.MyFoodPresenter;
+import com.holmusk.eatright.ui.views.MyFoodView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MyFoodFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MyFoodFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MyFoodFragment extends Fragment {
+import java.util.List;
 
-    private OnFragmentInteractionListener mListener;
+import butterknife.Bind;
+import butterknife.OnClick;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment MyFoodFragment.
-     */
+public class MyFoodFragment extends BaseFragment
+        implements MyFoodView, MyFoodAdapter.OnMyFoodClickedListener {
+
+    private MyFoodPresenter mPresenter;
+    private MyFoodFragmentListener mListener;
+    private MyFoodAdapter mAdapter;
+
+    @Bind(R.id.emptyFoodMsg) TextView emptyFoodText;
+    @Bind(R.id.myFoodList) ListView mMyFoodList;
+
     public static MyFoodFragment newInstance() {
         MyFoodFragment fragment = new MyFoodFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
-    public MyFoodFragment() {
-        // Required empty public constructor
+    @Override
+    protected void initialize() {
+        mPresenter = new MyFoodPresenter(getActivity());
+        mPresenter.setView(this);
+        mAdapter = new MyFoodAdapter(getActivity());
+        mAdapter.setOnClickListener(this);
+        mMyFoodList.setAdapter(mAdapter);
+
+        refreshMyFoodList();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+    protected int getFragmentLayout() {
+        return R.layout.fragment_my_food;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_food, container, false);
+    public void refreshMyFoodList() {
+        mPresenter.getMyFoodList();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    @OnClick(R.id.fab)
+    public void onFabClicked() {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onAddFoodClicked();
         }
     }
 
@@ -68,10 +67,10 @@ public class MyFoodFragment extends Fragment {
 
         if (context instanceof Activity) {
             try {
-                //mListener = (OnFragmentInteractionListener) activity;
+                mListener = (MyFoodFragmentListener) context;
             } catch (ClassCastException e) {
                 throw new ClassCastException(context.toString()
-                        + " must implement OnFragmentInteractionListener");
+                        + " must implement MyFoodFragmentListener");
             }
         }
 
@@ -83,19 +82,32 @@ public class MyFoodFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    @Override
+    public void renderMyFood(List<MyFood> foods) {
+        mAdapter.setMyFoods(foods);
+        if (foods.size() > 0) {
+            emptyFoodText.setVisibility(View.GONE);
+        } else {
+            emptyFoodText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onMyFoodClicked(MyFood food) {
+        mListener.onFoodClicked(food);
+    }
+
+    public interface MyFoodFragmentListener {
+
+        /**
+         * Called when user clicked on fab to add food
+         */
+        void onAddFoodClicked();
+
+        /**
+         * Called when user clicked on food to see details
+         */
+        void onFoodClicked(MyFood food);
     }
 
 }

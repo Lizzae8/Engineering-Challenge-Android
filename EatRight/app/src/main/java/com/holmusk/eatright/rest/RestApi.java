@@ -1,10 +1,10 @@
-package com.holmusk.eatright.network;
+package com.holmusk.eatright.rest;
 
 import com.holmusk.eatright.models.Food;
 
 import java.util.List;
 
-import retrofit.Callback;
+import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
@@ -13,7 +13,7 @@ import retrofit.http.Query;
  */
 public interface RestApi {
 
-    // Return list of trips to be displayed in the front screen
+    // Return list of foods to be displayed
     @GET("/food/search")
-    public void searchFood(@Query("q") String query, Callback<List<Food>> callback);
+    Call<List<Food>> searchFood(@Query("q") String query);
 }
