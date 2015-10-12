@@ -36,6 +36,8 @@ public class Food extends RealmObject implements Serializable {
     @Expose
     private Integer length;
 
+    private String photoUrl;
+
     /**
      *
      * @return
@@ -144,4 +146,12 @@ public class Food extends RealmObject implements Serializable {
         this.length = length;
     }
 
+
+    public String getPhotoUrl(){
+        return this.photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl){
+        this.photoUrl = photoUrl;
+    }
 }

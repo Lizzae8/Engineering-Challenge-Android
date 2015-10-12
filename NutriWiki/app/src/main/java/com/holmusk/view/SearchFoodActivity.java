@@ -10,12 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.holmusk.model.Food;
 import com.holmusk.model.Portion;
 import com.holmusk.restapi.RestHandler;
+import com.holmusk.utils.Utils;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -70,6 +73,9 @@ public class SearchFoodActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
                         .show();
+                View mFooterView = LayoutInflater.from(SearchFoodActivity.this).inflate(R.layout.loading_view, null);
+
+
                 restHandler.searchFoodWithCallback(query, new Callback<List<Food>>() {
                     @Override
                     public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
@@ -81,11 +87,12 @@ public class SearchFoodActivity extends AppCompatActivity {
                             Log.e("Food found: ",foodItem.getName());
                             List<Portion> portionList = foodItem.getPortions();
 
+                            //Remove items with the duplicated names
+                            if (!Utils.isFoodNameExisted(foodItems, foodItem.getName()))
                                 foodItems.add(new FoodItem(foodItem.getName(),portionList.get(0).getNutrients().getImportant().getCalories().getValue(),portionList.get(0).getName(),""));
-
                         }
                         //Populate RecyclerView with new Adapter containing data
-                        adapter = new FoodListAdapter(foodItems);
+                        adapter = new FoodListAdapter(foodItems, getApplicationContext());
                         foodList.setAdapter(adapter);
 
                     }

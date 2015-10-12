@@ -22,13 +22,16 @@ import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
-import com.holmusk.scrollableviewpager.ViewPagerAdapter;
+import com.holmusk.restapi.GoogleImageHandler;
 import com.holmusk.scrollableviewpager.BaseFragment;
 import com.holmusk.scrollableviewpager.RecyclerViewFragment;
+import com.holmusk.scrollableviewpager.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -141,25 +144,24 @@ public class MainActivity extends AppCompatActivity {
         /*Bind Floating action button to FABtoolbar */
         fabToolbar.setFab(actionButton);
 
-
-//        RestHandler restHandler = RestHandler.getInstance();
-//        restHandler.searchFoodWithCallback("burger", new Callback<List<Food>>() {
+        GoogleImageHandler handler = GoogleImageHandler.getInstance();
+        Map<String, String> map = new HashMap<String, String>();
+        //v=1.0&q=burger&start=1&imgsz=medium
+        map.put("v","1.0");
+        map.put("q","burger");
+        map.put("start","1");
+        map.put("imgsz", "medium");
+//        handler.searchImageWithCallback(map, new Callback<Response>() {
 //            @Override
-//            public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
-//                Log.e("Query ","Success");
-//                List<Food> foodList = response.body();
-//                for (Food foodItem:foodList){
-//                    Log.e("Food name",foodItem.getName());
-//                }
+//            public void onResponse(Response<Response> response, Retrofit retrofit) {
+//                String data = response.body().toString();
+//                Log.e("Search image result", data);
 //            }
-//
 //            @Override
 //            public void onFailure(Throwable t) {
 //                t.printStackTrace();
 //            }
 //        });
-
-
 
     }
 
@@ -179,11 +181,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Wheel View
-        WheelIndicatorItem breakFastIncatorItem = new WheelIndicatorItem(30f , getResources().getColor(R.color.lightgreenA400));
+        WheelIndicatorItem breakFastIncatorItem = new WheelIndicatorItem(30f , getResources().getColor(R.color.green_bright));
         wheelView.addWheelIndicatorItem(breakFastIncatorItem);
-        WheelIndicatorItem lunchIndicatorItem = new WheelIndicatorItem(25f, getResources().getColor(R.color.google_yellow));
+        WheelIndicatorItem lunchIndicatorItem = new WheelIndicatorItem(25f, getResources().getColor(R.color.yellow_light));
         wheelView.addWheelIndicatorItem(lunchIndicatorItem);
-        WheelIndicatorItem dinnerIncatorItem = new WheelIndicatorItem(25f, getResources().getColor(R.color.purpleA200));
+        WheelIndicatorItem dinnerIncatorItem = new WheelIndicatorItem(25f, getResources().getColor(R.color.orange_background));
         wheelView.addWheelIndicatorItem(dinnerIncatorItem);
         wheelView.setFilledPercent(80);
         wheelView.notifyDataSetChanged();

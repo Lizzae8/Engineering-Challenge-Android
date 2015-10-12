@@ -5,4 +5,5 @@ package com.holmusk.utils;
  */
 public class Constants {
     public static final String API_BASE = "http://test.holmusk.com";
+    public static final String GOOGLE_IMAGE_API_BASE = "https://ajax.googleapis.com/ajax/services/search/images";
 }
