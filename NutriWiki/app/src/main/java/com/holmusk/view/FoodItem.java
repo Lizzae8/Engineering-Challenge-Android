@@ -1,21 +1,22 @@
 package com.holmusk.view;
 
+import com.holmusk.utils.Constants;
+
 /**
  * Created by gmsdvt on 10/10/15.
  */
 public class FoodItem {
-
 
     String name;
     Double calories;
     String portion;
     String photoUrl;
 
-    public FoodItem(String name, Double calories, String portion, String photoUrl) {
+    public FoodItem(String name, Double calories, String portion) {
         this.name = name;
         this.calories = calories;
         this.portion = portion;
-        this.photoUrl = photoUrl;
+        this.photoUrl = Constants.DEFAULT_FOOD_PHOTO;
     }
 
     public String getName() {

@@ -18,6 +18,7 @@ import android.view.View;
 import com.holmusk.model.Food;
 import com.holmusk.model.Portion;
 import com.holmusk.restapi.RestHandler;
+import com.holmusk.utils.GoogleSearchUtil;
 import com.holmusk.utils.Utils;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -31,14 +32,14 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class SearchFoodActivity extends AppCompatActivity {
+public class SearchFoodActivity extends AppCompatActivity implements FoodListAdapter.OnItemClickListener, GoogleSearchUtil.GoogleQueryReturnedCallback {
     @Bind(R.id.search_view)
     MaterialSearchView searchView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.recycler_view)
     RecyclerView foodList;
-    List<FoodItem> foodItems;
+    List<Food> foodItems;
     FoodListAdapter adapter;
 
     RestHandler restHandler;
@@ -56,7 +57,10 @@ public class SearchFoodActivity extends AppCompatActivity {
         initSearchView();
 
         foodList.setLayoutManager(new LinearLayoutManager(this));
-
+        foodItems = new ArrayList<Food>();
+        adapter = new FoodListAdapter(foodItems);
+        adapter.setOnItemClickListener(SearchFoodActivity.this);
+        foodList.setAdapter(adapter);
 
     }
 
@@ -73,6 +77,7 @@ public class SearchFoodActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
                         .show();
+                foodItems.clear();
                 View mFooterView = LayoutInflater.from(SearchFoodActivity.this).inflate(R.layout.loading_view, null);
 
 
@@ -82,18 +87,22 @@ public class SearchFoodActivity extends AppCompatActivity {
                         List<Food> foodListResult= response.body();
 
                         //Prepare the new food item list from the query response
-                        foodItems = new ArrayList<FoodItem>();
                         for (Food foodItem:foodListResult){
                             Log.e("Food found: ",foodItem.getName());
                             List<Portion> portionList = foodItem.getPortions();
 
                             //Remove items with the duplicated names
-                            if (!Utils.isFoodNameExisted(foodItems, foodItem.getName()))
-                                foodItems.add(new FoodItem(foodItem.getName(),portionList.get(0).getNutrients().getImportant().getCalories().getValue(),portionList.get(0).getName(),""));
+                            if (!Utils.isFoodNameExisted(foodItems, foodItem.getName())) {
+                                foodItems.add(foodItem);
+                                try {
+                                    GoogleSearchUtil.searchImageWithQuery(foodItem.getName(),foodItems.size()-1,SearchFoodActivity.this);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                         //Populate RecyclerView with new Adapter containing data
-                        adapter = new FoodListAdapter(foodItems, getApplicationContext());
-                        foodList.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
 
                     }
 
@@ -128,10 +137,8 @@ public class SearchFoodActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
-
         return true;
     }
 
@@ -154,9 +161,30 @@ public class SearchFoodActivity extends AppCompatActivity {
                     searchView.setQuery(searchWrd, false);
                 }
             }
-
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onItemClick(View view, Food food) {
+        Log.e("On item clicked",food.getName());
+        DetailActivity.navigate(this, view.findViewById(R.id.food_photo), food);
+    }
+
+    @Override
+    public <T> void onQueryReturned(int pos, String url) {
+        Log.e("on Query returned", "Pos:" + pos + " Url:" + url);
+        foodItems.get(pos).setPhotoUrl(url);
+
+      // adapter.refreshUI();
+        foodList.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+
     }
 }
