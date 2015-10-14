@@ -1,4 +1,4 @@
-package com.holmusk.view;
+package com.holmusk.view.components;
 
 import com.holmusk.utils.Constants;
 

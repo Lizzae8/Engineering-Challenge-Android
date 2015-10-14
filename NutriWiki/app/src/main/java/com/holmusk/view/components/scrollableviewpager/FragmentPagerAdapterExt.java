@@ -1,4 +1,4 @@
-package com.holmusk.scrollableviewpager;
+package com.holmusk.view.components.scrollableviewpager;
 
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;

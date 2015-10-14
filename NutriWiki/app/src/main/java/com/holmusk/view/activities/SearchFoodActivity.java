@@ -1,4 +1,4 @@
-package com.holmusk.view;
+package com.holmusk.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +17,10 @@ import android.view.View;
 import com.holmusk.model.Food;
 import com.holmusk.model.Portion;
 import com.holmusk.restapi.RestHandler;
+import com.holmusk.utils.Constants;
 import com.holmusk.utils.GoogleSearchUtil;
 import com.holmusk.utils.Utils;
+import com.holmusk.view.components.FoodListAdapter;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -74,41 +75,72 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
-                        .show();
+            public boolean onQueryTextSubmit(final String query) {
                 foodItems.clear();
-                View mFooterView = LayoutInflater.from(SearchFoodActivity.this).inflate(R.layout.loading_view, null);
-
+                Food loadingView = new Food();
+                loadingView.setItemType(Constants.SEARCH_ITEM_TYPE_LOADING);
+                foodItems.add(loadingView);
+                adapter.notifyDataSetChanged();
 
                 restHandler.searchFoodWithCallback(query, new Callback<List<Food>>() {
                     @Override
                     public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
+                        foodItems.clear();
+
                         List<Food> foodListResult= response.body();
+                        if (foodListResult.size()==0){
+                            Snackbar.make(findViewById(R.id.container), "No result found for item: " + query, Snackbar.LENGTH_LONG)
+                                    .show();
+                            foodItems.clear();
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            //Prepare the new food item list from the query response
+                            for (Food foodItem : foodListResult) {
+                                List<Portion> portionList = foodItem.getPortions();
 
-                        //Prepare the new food item list from the query response
-                        for (Food foodItem:foodListResult){
-                            Log.e("Food found: ",foodItem.getName());
-                            List<Portion> portionList = foodItem.getPortions();
+                                //Remove items with the duplicated names
+                                if (!Utils.isFoodNameExisted(foodItems, foodItem.getName())) {
+                                    Log.e("Food found: ", "Pos:" + foodItems.size() + "name:" + foodItem.getName());
+                                    foodItems.add(foodItem);
 
-                            //Remove items with the duplicated names
-                            if (!Utils.isFoodNameExisted(foodItems, foodItem.getName())) {
-                                foodItems.add(foodItem);
-                                try {
-                                    GoogleSearchUtil.searchImageWithQuery(foodItem.getName(),foodItems.size()-1,SearchFoodActivity.this);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                    try {
+                                        GoogleSearchUtil.searchImageWithQuery(foodItem.getName(), foodItems.size() - 1, SearchFoodActivity.this);
+                                    /*GoogleImageHandler handler = GoogleImageHandler.getInstance();
+                                    HashMap<String,String> map = new HashMap<String, String>();
+                                    map.put("v","1.0");
+                                    map.put("start","1");
+                                    map.put("imgsz","medium");
+                                    map.put("q",foodItem.getName());
+                                    handler.searchImageWithCallback(map, new Callback<JSONObject>() {
+                                        @Override
+                                        public void onResponse(Response<JSONObject> response, Retrofit retrofit) {
+                                            JSONObject a = response.body();
+                                            Log.e("Google  search: ",a.toString());
+                                        }
+
+                                        @Override
+                                        public void onFailure(Throwable t) {
+                                            t.printStackTrace();
+                                        }
+                                    });*/
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
+                            //Populate RecyclerView with new Adapter containing data
+                            adapter.notifyDataSetChanged();
                         }
-                        //Populate RecyclerView with new Adapter containing data
-                        adapter.notifyDataSetChanged();
-
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
+                        foodItems.clear();
+                        adapter.notifyDataSetChanged();
+
                         t.printStackTrace();
+                        Snackbar.make(findViewById(R.id.container), "Error when searching for item: " + query, Snackbar.LENGTH_LONG)
+                                .show();
                     }
                 });
                 return false;
@@ -182,7 +214,6 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
-
             }
         });
 

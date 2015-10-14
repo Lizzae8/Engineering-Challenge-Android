@@ -1,4 +1,4 @@
-package com.holmusk.scrollableviewpager;
+package com.holmusk.view.components.scrollableviewpager;
 
 import android.content.res.Resources;
 import android.os.Bundle;

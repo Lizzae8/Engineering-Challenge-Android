@@ -1,4 +1,4 @@
-package com.holmusk.view;
+package com.holmusk.view.activities;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -23,9 +23,9 @@ import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
 import com.holmusk.restapi.GoogleImageHandler;
-import com.holmusk.scrollableviewpager.BaseFragment;
-import com.holmusk.scrollableviewpager.RecyclerViewFragment;
-import com.holmusk.scrollableviewpager.ViewPagerAdapter;
+import com.holmusk.view.components.scrollableviewpager.BaseFragment;
+import com.holmusk.view.components.scrollableviewpager.RecyclerViewFragment;
+import com.holmusk.view.components.scrollableviewpager.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;

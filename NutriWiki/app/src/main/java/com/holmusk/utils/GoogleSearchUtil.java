@@ -34,7 +34,7 @@ public class GoogleSearchUtil {
                 try {
                     String jsonData = response.body().string();
                     JSONObject data = new JSONObject(jsonData);
-                    String url = data.getJSONObject("responseData").getJSONArray("results").getJSONObject(0).getString("url");
+                    String url = data.getJSONObject("responseData").getJSONArray("results").getJSONObject(0).getString("unescapedUrl");
                     callback.onQueryReturned(position, url);
                 } catch (JSONException e){
                     e.printStackTrace();

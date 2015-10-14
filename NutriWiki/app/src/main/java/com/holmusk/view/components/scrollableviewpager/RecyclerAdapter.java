@@ -1,4 +1,4 @@
-package com.holmusk.scrollableviewpager;
+package com.holmusk.view.components.scrollableviewpager;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

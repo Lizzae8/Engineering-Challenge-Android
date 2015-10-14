@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.holmusk.view;
+package com.holmusk.view.activities;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -37,7 +37,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.holmusk.model.Food;
-import com.holmusk.utils.Constants;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -52,10 +51,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public static void navigate(AppCompatActivity activity, View transitionImage, Food foodItem) {
         Intent intent = new Intent(activity, DetailActivity.class);
-        if (foodItem.getPhotoUrl()!=null && !foodItem.getPhotoUrl().equals(""))
         intent.putExtra(EXTRA_IMAGE, foodItem.getPhotoUrl());
-        else         intent.putExtra(EXTRA_IMAGE, Constants.DEFAULT_FOOD_PHOTO);
-
         intent.putExtra(EXTRA_TITLE, foodItem.getName());
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionImage, EXTRA_IMAGE);

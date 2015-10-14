@@ -1,9 +1,10 @@
 package com.holmusk.restapi;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import retrofit.Call;
-import retrofit.Response;
 import retrofit.http.GET;
 import retrofit.http.QueryMap;
 
@@ -12,7 +13,6 @@ import retrofit.http.QueryMap;
  */
 public interface GoogleImageEndpoints {
     @GET("/ajax/services/search/images")
-    Call<Response> searchImageWithKeyword(@QueryMap Map<String, String> options);
-
+    Call<JSONObject> searchImageWithKeyword(@QueryMap Map<String, String> options);
 }
 

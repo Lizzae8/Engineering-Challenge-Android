@@ -6,6 +6,7 @@ package com.holmusk.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.holmusk.utils.Constants;
 
 import java.io.Serializable;
 
@@ -36,8 +37,9 @@ public class Food extends RealmObject implements Serializable {
     @Expose
     private Integer length;
 
-    private String photoUrl="";
-
+    private String photoUrl= Constants.DEFAULT_FOOD_PHOTO;
+    private boolean isPhotoLoaded = false;
+    private int itemType = Constants.SEARCH_ITEM_TYPE_FOOD;
     /**
      *
      * @return
@@ -153,5 +155,19 @@ public class Food extends RealmObject implements Serializable {
 
     public void setPhotoUrl(String photoUrl){
         this.photoUrl = photoUrl;
+    }
+
+    public boolean isPhotoLoaded(){
+        return this.isPhotoLoaded;
+    }
+    public void setIsPhotoLoaded(boolean val){
+        this.isPhotoLoaded = val;
+    }
+
+    public int getItemType(){
+        return this.itemType;
+    }
+    public void setItemType(int type){
+        this.itemType = type;
     }
 }
