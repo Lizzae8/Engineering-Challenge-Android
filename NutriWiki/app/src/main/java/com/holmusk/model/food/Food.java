@@ -14,10 +14,11 @@ import javax.annotation.Generated;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 @Generated("org.jsonschema2pojo")
 public class Food extends RealmObject implements Serializable {
-
+    @PrimaryKey
     @SerializedName("_id")
     @Expose
     private String Id;
@@ -37,6 +38,8 @@ public class Food extends RealmObject implements Serializable {
     @Expose
     private Integer length;
 
+    @SerializedName("uid")
+    private String uid;
     private String photoUrl= Constants.DEFAULT_FOOD_PHOTO;
     private boolean isPhotoLoaded = false;
     private int itemType = Constants.SEARCH_ITEM_TYPE_FOOD;
@@ -169,5 +172,12 @@ public class Food extends RealmObject implements Serializable {
     }
     public void setItemType(int type){
         this.itemType = type;
+    }
+
+    public void setUid(String uid){
+        this.uid = uid;
+    }
+    public String getUid(){
+        return this.uid;
     }
 }

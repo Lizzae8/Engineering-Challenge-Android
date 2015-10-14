@@ -75,8 +75,9 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         //Get recent searches and populate the suggestion list
         RealmResults<RecentSearch> searchHistoryList = DAOHandler.getDaoHandler(SearchFoodActivity.this).getRecentSearchDAOImpl().getAllRecentSearches();
         List<String> recentList = new ArrayList<String>();
+
         for (RecentSearch item:searchHistoryList){
-            recentList.add(item.getQuery());
+                recentList.add(item.getQuery());
         }
 
         String[] searchArray = new String[ recentList.size() ];

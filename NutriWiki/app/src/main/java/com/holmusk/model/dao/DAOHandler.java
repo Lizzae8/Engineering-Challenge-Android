@@ -13,6 +13,7 @@ public class DAOHandler {
 
     private Realm realm;
     private RecentSearchDAOImpl recentSearchDAOImpl;
+    private FoodDAOImpl foodDAOImpl;
 
     public static DAOHandler getDaoHandler(Context context) {
         if(daoHandler == null){
@@ -24,11 +25,13 @@ public class DAOHandler {
     private DAOHandler(Context context) {
         realm = Realm.getInstance(context);
         recentSearchDAOImpl = new RecentSearchDAOImpl(realm);
+        foodDAOImpl = new FoodDAOImpl(realm);
     }
 
 
     public RecentSearchDAOImpl getRecentSearchDAOImpl(){
         return recentSearchDAOImpl;
     }
+    public FoodDAOImpl getFoodDAOImpl(){return foodDAOImpl;}
 
 }

@@ -31,14 +31,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.holmusk.model.dao.DAOHandler;
 import com.holmusk.model.food.Food;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import nutriwiki.holmusk.com.nutriwiki.R;
 
@@ -47,13 +51,20 @@ public class DetailActivity extends AppCompatActivity {
 
     private static final String EXTRA_IMAGE = "extraImage";
     private static final String EXTRA_TITLE = "extraTitle";
+    private static final String EXTRA_FOOD = "extraFood";
+
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
+    private Food food;
     public static void navigate(AppCompatActivity activity, View transitionImage, Food foodItem) {
+        //Save item to database
+        DAOHandler.getDaoHandler(activity).getFoodDAOImpl().addOrUpdateFoodItem(foodItem);
+
         Intent intent = new Intent(activity, DetailActivity.class);
         intent.putExtra(EXTRA_IMAGE, foodItem.getPhotoUrl());
         intent.putExtra(EXTRA_TITLE, foodItem.getName());
-
+        intent.putExtra(EXTRA_FOOD, foodItem.getId());
+        Log.e("Food send",foodItem.getId());
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionImage, EXTRA_IMAGE);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
@@ -69,6 +80,13 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        String foodId = getIntent().getStringExtra(EXTRA_FOOD);
+
+        Log.e("Food received", foodId);
+        List<Food> foodList= DAOHandler.getDaoHandler(DetailActivity.this).getFoodDAOImpl().findFoodById(foodId);
+        food = foodList.get(0);
+        Log.e("Received food name",food.getName());
+        Log.e("Calories",food.getPortions().get(0).getNutrients().getImportant().getCalories().getValue()+"");
         String itemTitle = getIntent().getStringExtra(EXTRA_TITLE);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(itemTitle);
