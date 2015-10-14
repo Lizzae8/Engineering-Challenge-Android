@@ -1,6 +1,6 @@
 package com.holmusk.utils;
 
-import com.holmusk.model.Food;
+import com.holmusk.model.food.Food;
 
 import java.util.List;
 

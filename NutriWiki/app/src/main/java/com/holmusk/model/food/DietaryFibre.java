@@ -1,4 +1,4 @@
-package com.holmusk.model;
+package com.holmusk.model.food;
 
 /**
  * Created by gmsdvt on 10/11/15.
@@ -14,7 +14,7 @@ import javax.annotation.Generated;
 import io.realm.RealmObject;
 
 @Generated("org.jsonschema2pojo")
-public class TotalCarbs extends RealmObject implements Serializable {
+public class DietaryFibre extends RealmObject implements Serializable {
 
     @SerializedName("unit")
     @Expose

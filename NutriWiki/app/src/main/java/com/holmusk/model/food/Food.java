@@ -1,4 +1,4 @@
-package com.holmusk.model;
+package com.holmusk.model.food;
 
 /**
  * Created by gmsdvt on 10/11/15.

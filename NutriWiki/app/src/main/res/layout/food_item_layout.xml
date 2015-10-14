@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
+        android:padding="@dimen/spacing_large"
         >
 
         <ImageView
@@ -29,7 +29,7 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/food_photo"
             android:text="Food name"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:maxLines="2"
             />
 

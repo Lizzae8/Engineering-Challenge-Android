@@ -13,21 +13,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
-import com.holmusk.model.Food;
-import com.holmusk.model.Portion;
+import com.holmusk.model.RecentSearch;
+import com.holmusk.model.dao.DAOHandler;
+import com.holmusk.model.food.Food;
+import com.holmusk.model.food.Portion;
 import com.holmusk.restapi.RestHandler;
 import com.holmusk.utils.Constants;
 import com.holmusk.utils.GoogleSearchUtil;
 import com.holmusk.utils.Utils;
 import com.holmusk.view.components.FoodListAdapter;
+import com.holmusk.view.components.MaterialSearchViewExtended;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.RealmResults;
 import nutriwiki.holmusk.com.nutriwiki.R;
 import retrofit.Callback;
 import retrofit.Response;
@@ -35,7 +41,7 @@ import retrofit.Retrofit;
 
 public class SearchFoodActivity extends AppCompatActivity implements FoodListAdapter.OnItemClickListener, GoogleSearchUtil.GoogleQueryReturnedCallback {
     @Bind(R.id.search_view)
-    MaterialSearchView searchView;
+    MaterialSearchViewExtended searchView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.recycler_view)
@@ -65,30 +71,47 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
     }
 
+    private void refreshSuggestionList(){
+        //Get recent searches and populate the suggestion list
+        RealmResults<RecentSearch> searchHistoryList = DAOHandler.getDaoHandler(SearchFoodActivity.this).getRecentSearchDAOImpl().getAllRecentSearches();
+        List<String> recentList = new ArrayList<String>();
+        for (RecentSearch item:searchHistoryList){
+            recentList.add(item.getQuery());
+        }
+
+        String[] searchArray = new String[ recentList.size() ];
+        recentList.toArray( searchArray );
+
+        searchView.setSuggestions(searchArray);
+    }
     private void initSearchView(){
         searchView.setHint("Search food");
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
 
-        //TODO: create query suggestion from search history
-        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
-
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
+                //Update database
+                RecentSearch newSearch = new RecentSearch(query, new Date().getTime());
+                DAOHandler.getDaoHandler(SearchFoodActivity.this).getRecentSearchDAOImpl().addOrUpdateRecentSearch(newSearch);
+
+                //Display loading view
                 foodItems.clear();
                 Food loadingView = new Food();
                 loadingView.setItemType(Constants.SEARCH_ITEM_TYPE_LOADING);
                 foodItems.add(loadingView);
                 adapter.notifyDataSetChanged();
 
+
+                //Perform search action
                 restHandler.searchFoodWithCallback(query, new Callback<List<Food>>() {
                     @Override
                     public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
                         foodItems.clear();
 
-                        List<Food> foodListResult= response.body();
-                        if (foodListResult.size()==0){
+                        List<Food> foodListResult = response.body();
+                        if (foodListResult.size() == 0) {
                             Snackbar.make(findViewById(R.id.container), "No result found for item: " + query, Snackbar.LENGTH_LONG)
                                     .show();
                             foodItems.clear();
@@ -148,7 +171,7 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                //TODO: perform advanced search here
                 return false;
             }
         });
@@ -156,12 +179,19 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                //Do some magic
+                Log.e("Search view", "on Shown");
+                refreshSuggestionList();
             }
 
             @Override
             public void onSearchViewClosed() {
                 //Do some magic
+            }
+        });
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
         });
         searchView.showSearch(true);

@@ -36,7 +36,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.holmusk.model.Food;
+import com.holmusk.model.food.Food;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

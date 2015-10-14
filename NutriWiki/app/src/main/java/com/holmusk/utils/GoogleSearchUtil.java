@@ -1,5 +1,8 @@
 package com.holmusk.utils;
 
+import android.util.Log;
+
+import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 
@@ -19,7 +22,21 @@ public class GoogleSearchUtil {
     }
 
     public static void searchImageWithQuery(String query, final int position, final GoogleQueryReturnedCallback callback) throws Exception {
-        String url = Constants.GOOGLE_IMAGE_URL+query;
+       //ajax.googleapis.com/ajax/services/search/images?v=1.0&start=1&imgsz=medium&as_filetype=jpg,bmp,png
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("https")
+                .host("ajax.googleapis.com")
+                .addPathSegment("ajax")
+                .addPathSegment("services")
+                .addPathSegment("search")
+                .addPathSegment("images")
+                .addQueryParameter("v","1.0")
+                .addQueryParameter("start","1")
+                .addQueryParameter("imgsz","medium")
+                .addQueryParameter("as_filetype","jpg,bmp,png")
+                .addQueryParameter("q", "food "+query)
+                .build();
+        Log.e("Url ",url.toString());
         Request request = new Request.Builder()
                 .url(url)
                 .build();

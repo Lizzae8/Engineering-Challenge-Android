@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.holmusk.model.Food;
+import com.holmusk.model.food.Calories;
+import com.holmusk.model.food.Food;
+import com.holmusk.model.food.Portion;
 import com.holmusk.utils.Constants;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.squareup.picasso.Callback;
@@ -57,17 +59,32 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
     public void onBindViewHolder( final FoodItemViewHolder holder,  final int position) {
         Food item = foodItems.get(position);
         if (item.getItemType() == Constants.SEARCH_ITEM_TYPE_FOOD){
+            String name = foodItems.get(position).getName();
+            Double calories = 0.0;
 
-            holder.foodName.setText(foodItems.get(position).getName());
-            holder.foodCalories.setText(foodItems.get(position).getPortions().get(0).getNutrients().getImportant().getCalories().getValue()+" " +foodItems.get(position).getPortions().get(0).getNutrients().getImportant().getCalories().getUnit());
-            holder.foodPortion.setText(foodItems.get(position).getPortions().get(0).getName());
+            List<Portion> portionList = foodItems.get(position).getPortions();
+            String portionName="";
+            String unit = "";
+            if (portionList!=null) {
+                portionName = portionList.get(0).getName();
+                Calories caloriesObj = portionList.get(0).getNutrients().getImportant().getCalories();
+                if (caloriesObj!=null) {
+                    calories = caloriesObj.getValue();
+                    unit = caloriesObj.getUnit();
+                }
+            }
+
+            holder.foodName.setText(name!=null?name:"-");
+
+            holder.foodCalories.setText((calories>0?calories:"-")+" " +(unit!=null?unit:"-"));
+            holder.foodPortion.setText(portionName!=null?portionName:"-");
             //holder.foodPhoto.setImageResource(foodItems.get(position).photoId);
 
             holder.itemView.setTag(foodItems.get(position));
 
             String photoUrl = foodItems.get(position).getPhotoUrl();
             if (photoUrl!=null && !photoUrl.equals(Constants.DEFAULT_FOOD_PHOTO))
-                Picasso.with(holder.foodPhoto.getContext()).load(photoUrl).placeholder(R.mipmap.loading).into(holder.foodPhoto, new Callback() {
+                Picasso.with(holder.foodPhoto.getContext()).load(photoUrl).resize(60, 60).placeholder(R.mipmap.loading).into(holder.foodPhoto, new Callback() {
                     @Override
                     public void onSuccess() {
                         Food item = (Food) holder.itemView.getTag();
@@ -79,7 +96,8 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
                         Log.e("Failed to load photo:", holder.foodName.getText().toString());
                         Food item = (Food) holder.itemView.getTag();
                         item.setPhotoUrl(Constants.DEFAULT_FOOD_PHOTO);
-                        Picasso.with(holder.foodPhoto.getContext()).load(item.getPhotoUrl()).placeholder(R.mipmap.loading).
+                        Picasso.with(holder.foodPhoto.getContext()).load(item.getPhotoUrl()).resize(60, 60).
+                        placeholder(R.mipmap.loading).
                                 transform(new CircleTransform()).into(holder.foodPhoto, new Callback() {
                             @Override
                             public void onSuccess() {
@@ -98,12 +116,6 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
 
     }
 
-    //    public void redrawPhoto(int pos){
-//        String photoUrl = foodItems.get(pos).getPhotoUrl();
-//        if (photoUrl!=null && !photoUrl.equals(""))
-//            Picasso.with(holder.foodPhoto.getContext()).load(photoUrl).transform(new CircleTransform()).into(holder.foodPhoto);
-//
-//    }
     @Override
     public int getItemCount() {
         return foodItems.size();
@@ -151,8 +163,6 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
             } else if (viewType == Constants.SEARCH_ITEM_TYPE_LOADING){
                 CircleProgressBar circleProgressBar = (CircleProgressBar) itemView.findViewById(R.id.progressBar);
                 circleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_orange_light,android.R.color.holo_red_light);
-
-
             }
         }
     }

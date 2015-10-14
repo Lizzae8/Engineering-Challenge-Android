@@ -1,9 +1,7 @@
-package com.holmusk.model;
-
+package com.holmusk.model.food;
 /**
  * Created by gmsdvt on 10/11/15.
  */
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +12,7 @@ import javax.annotation.Generated;
 import io.realm.RealmObject;
 
 @Generated("org.jsonschema2pojo")
-public class Sodium extends RealmObject implements Serializable {
+public class Cholesterol extends RealmObject implements Serializable {
 
     @SerializedName("unit")
     @Expose
