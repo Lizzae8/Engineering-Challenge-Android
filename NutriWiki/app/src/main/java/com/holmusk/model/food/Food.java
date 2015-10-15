@@ -43,6 +43,8 @@ public class Food extends RealmObject implements Serializable {
     private String photoUrl= Constants.DEFAULT_FOOD_PHOTO;
     private boolean isPhotoLoaded = false;
     private int itemType = Constants.SEARCH_ITEM_TYPE_FOOD;
+
+
     /**
      *
      * @return

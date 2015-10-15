@@ -18,21 +18,21 @@ import android.widget.AdapterView;
 import com.holmusk.model.RecentSearch;
 import com.holmusk.model.dao.DAOHandler;
 import com.holmusk.model.food.Food;
-import com.holmusk.model.food.Portion;
 import com.holmusk.restapi.RestHandler;
 import com.holmusk.utils.Constants;
 import com.holmusk.utils.GoogleSearchUtil;
-import com.holmusk.utils.Utils;
 import com.holmusk.view.components.FoodListAdapter;
 import com.holmusk.view.components.MaterialSearchViewExtended;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import nutriwiki.holmusk.com.nutriwiki.R;
 import retrofit.Callback;
@@ -50,7 +50,12 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
     FoodListAdapter adapter;
 
     RestHandler restHandler;
+    private boolean isShowingHistoricalData = false;
+    private int GoogleQueryCounter = 0;
 
+    //Variables used for data storing
+    private String currentQuery;
+    List<Food> currentResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,7 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
         foodList.setLayoutManager(new LinearLayoutManager(this));
         foodItems = new ArrayList<Food>();
-        adapter = new FoodListAdapter(foodItems);
+        adapter = new FoodListAdapter(foodItems, this);
         adapter.setOnItemClickListener(SearchFoodActivity.this);
         foodList.setAdapter(adapter);
 
@@ -81,7 +86,7 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         }
 
         String[] searchArray = new String[ recentList.size() ];
-        recentList.toArray( searchArray );
+        recentList.toArray(searchArray);
 
         searchView.setSuggestions(searchArray);
     }
@@ -90,12 +95,11 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new MaterialSearchViewExtended.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
-                //Update database
-                RecentSearch newSearch = new RecentSearch(query, new Date().getTime());
-                DAOHandler.getDaoHandler(SearchFoodActivity.this).getRecentSearchDAOImpl().addOrUpdateRecentSearch(newSearch);
+                searchView.closeSearch();
+                currentQuery = query;
 
                 //Display loading view
                 foodItems.clear();
@@ -104,56 +108,42 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
                 foodItems.add(loadingView);
                 adapter.notifyDataSetChanged();
 
+                //Try to load results from history first
+                RealmResults<RecentSearch> historyResults = DAOHandler.getDaoHandler(SearchFoodActivity.this).getRecentSearchDAOImpl().findRecentSearchByQuery(query);
+                if (historyResults != null && historyResults.size() > 0) {
+                    isShowingHistoricalData = true;
+                    RealmList<Food> historicalFoodResults = historyResults.get(0).getResults();
+                    List<Food> historicalFoodList = new ArrayList<Food>();
 
-                //Perform search action
+                    for (Food item:historicalFoodResults){
+                        Log.e("Historical result", item.getName());
+                        historicalFoodList.add(item);
+                    }
+                    foodItems.clear();//clear the loading view first
+                    updateUIWithFoodList(historicalFoodList);
+                } else {
+                    isShowingHistoricalData = false;
+                //If historical results for that query not found, perform search action online
                 restHandler.searchFoodWithCallback(query, new Callback<List<Food>>() {
                     @Override
                     public void onResponse(Response<List<Food>> response, Retrofit retrofit) {
+                        //Get the response data
+                        List<Food> foodListResult = response.body();
+                        currentResults =foodListResult;
+
+                        //Update UI
                         foodItems.clear();
 
-                        List<Food> foodListResult = response.body();
-                        if (foodListResult.size() == 0) {
+
+                        if (foodListResult.size() == 0) {       //If no item returned, notify the user
                             Snackbar.make(findViewById(R.id.container), "No result found for item: " + query, Snackbar.LENGTH_LONG)
                                     .show();
                             foodItems.clear();
                             adapter.notifyDataSetChanged();
-                        } else {
-                            //Prepare the new food item list from the query response
-                            for (Food foodItem : foodListResult) {
-                                List<Portion> portionList = foodItem.getPortions();
+                        } else {                                //Have query results to show
 
-                                //Remove items with the duplicated names
-                                if (!Utils.isFoodNameExisted(foodItems, foodItem.getName())) {
-                                    Log.e("Food found: ", "Pos:" + foodItems.size() + "name:" + foodItem.getName());
-                                    foodItems.add(foodItem);
-
-                                    try {
-                                        GoogleSearchUtil.searchImageWithQuery(foodItem.getName(), foodItems.size() - 1, SearchFoodActivity.this);
-                                    /*GoogleImageHandler handler = GoogleImageHandler.getInstance();
-                                    HashMap<String,String> map = new HashMap<String, String>();
-                                    map.put("v","1.0");
-                                    map.put("start","1");
-                                    map.put("imgsz","medium");
-                                    map.put("q",foodItem.getName());
-                                    handler.searchImageWithCallback(map, new Callback<JSONObject>() {
-                                        @Override
-                                        public void onResponse(Response<JSONObject> response, Retrofit retrofit) {
-                                            JSONObject a = response.body();
-                                            Log.e("Google  search: ",a.toString());
-                                        }
-
-                                        @Override
-                                        public void onFailure(Throwable t) {
-                                            t.printStackTrace();
-                                        }
-                                    });*/
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                            //Populate RecyclerView with new Adapter containing data
-                            adapter.notifyDataSetChanged();
+                            //Update UI with the returned food list
+                            updateUIWithFoodList(foodListResult);
                         }
                     }
 
@@ -161,23 +151,29 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
                     public void onFailure(Throwable t) {
                         foodItems.clear();
                         adapter.notifyDataSetChanged();
-
                         t.printStackTrace();
                         Snackbar.make(findViewById(R.id.container), "Error when searching for item: " + query, Snackbar.LENGTH_LONG)
                                 .show();
+
+                        //Save search history into database with empty results
+                        RecentSearch newSearch = new RecentSearch(query, new Date().getTime(), new RealmList<Food>());
+                        DAOHandler.getDaoHandler(SearchFoodActivity.this).getRecentSearchDAOImpl().addOrUpdateRecentSearch(newSearch);
+
                     }
                 });
-                return false;
+
             }
+                return true;
+            }//End of onQueryTextSubmit
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //TODO: perform advanced search here
+                //TODO: perform search in advance here
                 return false;
             }
         });
 
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+        searchView.setOnSearchViewListener(new MaterialSearchViewExtended.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
                 Log.e("Search view", "on Shown");
@@ -197,6 +193,32 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         });
         searchView.showSearch(true);
     }
+
+
+    private void updateUIWithFoodList(List<Food> foodListResult){
+        //Update UI with the returned food list
+        if (!isShowingHistoricalData)
+            GoogleQueryCounter+=foodListResult.size();
+        for (Food foodItem : foodListResult) {
+
+            //Don't display items with the same name
+            //if (!Utils.isFoodNameExisted(foodItems, foodItem.getName())) {
+                Log.e("Food found: ", "Pos:" + foodItems.size() + "name:" + foodItem.getName());
+                foodItems.add(foodItem);
+                if (!isShowingHistoricalData) {
+                    try {
+
+                        GoogleSearchUtil.searchImageWithQuery(foodItem.getName(), foodItems.size() - 1, SearchFoodActivity.this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            //}
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -216,7 +238,7 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+        if (requestCode == MaterialSearchViewExtended.REQUEST_VOICE && resultCode == RESULT_OK) {
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches != null && matches.size() > 0) {
                 String searchWrd = matches.get(0);
@@ -232,12 +254,17 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
     @Override
     public void onItemClick(View view, Food food) {
         Log.e("On item clicked",food.getName());
+        //Save item to database
+        if (!isShowingHistoricalData)
+            DAOHandler.getDaoHandler(this).getFoodDAOImpl().addOrUpdateFoodItem(food);
+
         DetailActivity.navigate(this, view.findViewById(R.id.food_photo), food);
     }
 
     @Override
     public <T> void onQueryReturned(int pos, String url) {
         Log.e("on Query returned", "Pos:" + pos + " Url:" + url);
+
         foodItems.get(pos).setPhotoUrl(url);
 
       // adapter.refreshUI();
@@ -247,6 +274,33 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
                 adapter.notifyDataSetChanged();
             }
         });
+
+        //Update request counter and save search results into database when all photo URLs are created
+        GoogleQueryCounter --;
+        if (GoogleQueryCounter==0){
+            Log.e("Saving search result", "To database");
+
+            //Update database with the results
+            RealmList<Food> resultList = new RealmList<Food>();
+            for (Food foodItem : currentResults) {
+                resultList.add(foodItem);
+            }
+
+            Realm realm = Realm.getInstance(SearchFoodActivity.this);
+            realm.beginTransaction();
+            RecentSearch newSearch = new RecentSearch(currentQuery, new Date().getTime(), resultList);
+            RecentSearch recentResults = realm.where(RecentSearch.class).equalTo("query", newSearch.getQuery()).findFirst();
+            if(recentResults!=null ){
+                newSearch.setEntryId(recentResults.getEntryId());
+            }else{
+                newSearch.setEntryId((UUID.randomUUID().toString()));
+            }
+
+            realm.copyToRealmOrUpdate(newSearch);
+            realm.commitTransaction();
+
+
+        }
 
     }
 }

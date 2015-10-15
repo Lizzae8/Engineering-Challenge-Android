@@ -17,7 +17,7 @@ public class RecentSearchDAOImpl implements RecentSearchDAO {
     protected RecentSearchDAOImpl(Realm realm) {
         this.realm = realm;
     }
-
+    RecentSearchDAOImpl(){}
     @Override
     public RealmResults<RecentSearch> getAllRecentSearches() {
         //Find all recent searches sorted by the most recent
@@ -31,11 +31,12 @@ public class RecentSearchDAOImpl implements RecentSearchDAO {
         return results;
     }
 
+
     @Override
     public boolean addOrUpdateRecentSearch(RecentSearch recentSearch) {
-        RealmResults<RecentSearch> recentResults = findRecentSearchByQuery(recentSearch.getQuery());
-        if(recentResults!=null && recentResults.size()>0){
-            recentSearch.setEntryId(recentResults.get(0).getEntryId());
+        RecentSearch recentResults = realm.where(RecentSearch.class).equalTo("query", recentSearch.getQuery()).findFirst();
+        if(recentResults!=null ){
+            recentSearch.setEntryId(recentResults.getEntryId());
         }else{
             recentSearch.setEntryId((UUID.randomUUID().toString()));
         }

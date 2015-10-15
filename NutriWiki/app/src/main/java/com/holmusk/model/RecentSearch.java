@@ -1,7 +1,10 @@
 package com.holmusk.model;
 
+import com.holmusk.model.food.Food;
+
 import java.io.Serializable;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -15,13 +18,16 @@ public class RecentSearch extends RealmObject implements Serializable{
     private String query;
     private long timestamp;
 
-    public RecentSearch(){
+
+    private RealmList<Food> results = new RealmList<Food>();
+
+    public  RecentSearch(){
 
     }
-
-    public RecentSearch(String query, long timestamp){
+    public RecentSearch(String query, long timestamp, RealmList<Food> results){
         this.query = query;
         this.timestamp = timestamp;
+        this.results = results;
     }
 
     public String getEntryId() {
@@ -47,4 +53,13 @@ public class RecentSearch extends RealmObject implements Serializable{
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+    public RealmList<Food> getResults() {
+        return results;
+    }
+
+    public void setResults(RealmList<Food> results) {
+        this.results = results;
+    }
+
 }

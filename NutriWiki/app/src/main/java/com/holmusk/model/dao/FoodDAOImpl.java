@@ -58,8 +58,6 @@ public class FoodDAOImpl implements FoodDAO {
         for (Food item:foodList){
             addOrUpdateFoodItem(item);
         }
-
-
         return true;
     }
 }

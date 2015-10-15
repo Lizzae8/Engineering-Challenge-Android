@@ -1,5 +1,6 @@
 package com.holmusk.view.components;
 
+import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import io.realm.Realm;
 import nutriwiki.holmusk.com.nutriwiki.R;
 
 /**
@@ -28,9 +30,10 @@ import nutriwiki.holmusk.com.nutriwiki.R;
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodItemViewHolder> implements View.OnClickListener{
     List<Food> foodItems;
     private OnItemClickListener onItemClickListener;
-
-    public FoodListAdapter(List<Food> foodItems){
+    Context context;
+    public FoodListAdapter(List<Food> foodItems, Context context){
         this.foodItems = foodItems;
+        this.context =context;
     }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -84,18 +87,24 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
 
             String photoUrl = foodItems.get(position).getPhotoUrl();
             if (photoUrl!=null && !photoUrl.equals(Constants.DEFAULT_FOOD_PHOTO))
+                Log.e("Loading photo url", photoUrl);
                 Picasso.with(holder.foodPhoto.getContext()).load(photoUrl).resize(60, 60).placeholder(R.mipmap.loading).into(holder.foodPhoto, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Food item = (Food) holder.itemView.getTag();
-                        item.setIsPhotoLoaded(true);
                     }
 
                     @Override
                     public void onError() {
                         Log.e("Failed to load photo:", holder.foodName.getText().toString());
                         Food item = (Food) holder.itemView.getTag();
+                        //Update photo url back to default
+                        Realm realm = Realm.getInstance(context);
+                        realm.beginTransaction();
                         item.setPhotoUrl(Constants.DEFAULT_FOOD_PHOTO);
+                        realm.copyToRealmOrUpdate(item);
+                        realm.commitTransaction();
+
+
                         Picasso.with(holder.foodPhoto.getContext()).load(item.getPhotoUrl()).resize(60, 60).
                         placeholder(R.mipmap.loading).
                                 transform(new CircleTransform()).into(holder.foodPhoto, new Callback() {
@@ -137,7 +146,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
                 @Override public void run() {
                     onItemClickListener.onItemClick(v, (Food) v.getTag());
                 }
-            }, 200);
+            }, 0);
         }
     }
 

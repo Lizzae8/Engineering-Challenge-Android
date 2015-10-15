@@ -57,8 +57,6 @@ public class DetailActivity extends AppCompatActivity {
 
     private Food food;
     public static void navigate(AppCompatActivity activity, View transitionImage, Food foodItem) {
-        //Save item to database
-        DAOHandler.getDaoHandler(activity).getFoodDAOImpl().addOrUpdateFoodItem(foodItem);
 
         Intent intent = new Intent(activity, DetailActivity.class);
         intent.putExtra(EXTRA_IMAGE, foodItem.getPhotoUrl());

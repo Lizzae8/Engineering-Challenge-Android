@@ -33,5 +33,4 @@ public class DAOHandler {
         return recentSearchDAOImpl;
     }
     public FoodDAOImpl getFoodDAOImpl(){return foodDAOImpl;}
-
 }
