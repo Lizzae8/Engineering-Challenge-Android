@@ -28,7 +28,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/theme_primary" />
+            android:background="@color/google_blue" />
 
         <com.holmusk.view.components.MaterialSearchViewExtended
             android:id="@+id/search_view"

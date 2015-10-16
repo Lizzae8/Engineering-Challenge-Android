@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blue">#303F9F</color>
-
+    <color name="black">#000000</color>
     <color name="accent_color">@color/blue</color>
     <color name="colorPrimary">@color/blue</color>
     <color name="colorPrimaryDark">@color/blue</color>
@@ -43,4 +43,6 @@
     <color name="yellow_light">#FDC242</color>
     <color name="cyan_light">#9EEAEA</color>
     <color name="green_bright">#8DC643</color>
+
+    <color name="details_green">#00796B</color>
 </resources>

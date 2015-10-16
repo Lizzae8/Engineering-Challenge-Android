@@ -6,12 +6,12 @@ import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,16 +22,13 @@ import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.crashlytics.android.Crashlytics;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorItem;
 import com.dlazaro66.wheelindicatorview.WheelIndicatorView;
-import com.holmusk.restapi.GoogleImageHandler;
 import com.holmusk.view.components.scrollableviewpager.BaseFragment;
 import com.holmusk.view.components.scrollableviewpager.RecyclerViewFragment;
 import com.holmusk.view.components.scrollableviewpager.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -86,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_summary);
 
         ButterKnife.bind(this);
 //        ActionBar actionBar = getSupportActionBar();
@@ -94,12 +91,8 @@ public class MainActivity extends AppCompatActivity {
 //        actionBar.setDisplayShowTitleEnabled(true);
 //        actionBar.setTitle("APP TITLE");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar!=null)
-            Log.e("Toolbar", "not null");
-        //Toolbar will now take on default Action Bar characteristics
+            //Toolbar will now take on default Action Bar characteristics
         setSupportActionBar(toolbar);
-
-        toolbar.setTitle("APP TITLE");
 
         /* Set up scrollable view pager */
         mScrollableLayout.setDraggableView(tabs);
@@ -144,25 +137,6 @@ public class MainActivity extends AppCompatActivity {
         /*Bind Floating action button to FABtoolbar */
         fabToolbar.setFab(actionButton);
 
-        GoogleImageHandler handler = GoogleImageHandler.getInstance();
-        Map<String, String> map = new HashMap<String, String>();
-        //v=1.0&q=burger&start=1&imgsz=medium
-        map.put("v","1.0");
-        map.put("q","burger");
-        map.put("start","1");
-        map.put("imgsz", "medium");
-//        handler.searchImageWithCallback(map, new Callback<Response>() {
-//            @Override
-//            public void onResponse(Response<Response> response, Retrofit retrofit) {
-//                String data = response.body().toString();
-//                Log.e("Search image result", data);
-//            }
-//            @Override
-//            public void onFailure(Throwable t) {
-//                t.printStackTrace();
-//            }
-//        });
-
     }
 
     private void initViews() {
@@ -189,9 +163,12 @@ public class MainActivity extends AppCompatActivity {
         wheelView.addWheelIndicatorItem(dinnerIncatorItem);
         wheelView.setFilledPercent(80);
         wheelView.notifyDataSetChanged();
-        wheelView.startItemsAnimation();
-
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wheelView.startItemsAnimation();
+            }
+        }, 300);
     }
 
     @OnClick(R.id.fab)

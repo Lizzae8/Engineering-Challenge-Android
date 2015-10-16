@@ -87,7 +87,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
 
             String photoUrl = foodItems.get(position).getPhotoUrl();
             if (photoUrl!=null && !photoUrl.equals(Constants.DEFAULT_FOOD_PHOTO))
-                Log.e("Loading photo url", photoUrl);
+                //Log.e("Loading photo url", photoUrl);
                 Picasso.with(holder.foodPhoto.getContext()).load(photoUrl).resize(60, 60).placeholder(R.mipmap.loading).into(holder.foodPhoto, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -103,7 +103,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodIt
                         item.setPhotoUrl(Constants.DEFAULT_FOOD_PHOTO);
                         realm.copyToRealmOrUpdate(item);
                         realm.commitTransaction();
-
+                        realm.close();
 
                         Picasso.with(holder.foodPhoto.getContext()).load(item.getPhotoUrl()).resize(60, 60).
                         placeholder(R.mipmap.loading).

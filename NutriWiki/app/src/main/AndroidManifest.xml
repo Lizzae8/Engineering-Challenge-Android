@@ -12,19 +12,17 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.holmusk.view.activities.SearchFoodActivity"
+            android:theme="@style/AppTheme"
             android:label="@string/app_name" >
+
+        </activity>
+        <activity
+            android:name="com.holmusk.view.activities.MainActivity"
+            android:label="@string/title_activity_summary" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name="com.holmusk.test.ViewFoodActivity" >
-        </activity>
-        <activity
-            android:name="com.holmusk.view.activities.MainActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/title_activity_summary" >
-
         </activity>
         <activity android:name="com.holmusk.view.activities.DetailActivity"/>
         <meta-data

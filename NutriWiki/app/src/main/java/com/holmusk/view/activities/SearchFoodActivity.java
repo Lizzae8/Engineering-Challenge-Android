@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,7 +115,6 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
                     List<Food> historicalFoodList = new ArrayList<Food>();
 
                     for (Food item:historicalFoodResults){
-                        Log.e("Historical result", item.getName());
                         historicalFoodList.add(item);
                     }
                     foodItems.clear();//clear the loading view first
@@ -176,7 +174,6 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         searchView.setOnSearchViewListener(new MaterialSearchViewExtended.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                Log.e("Search view", "on Shown");
                 refreshSuggestionList();
             }
 
@@ -203,7 +200,6 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
             //Don't display items with the same name
             //if (!Utils.isFoodNameExisted(foodItems, foodItem.getName())) {
-                Log.e("Food found: ", "Pos:" + foodItems.size() + "name:" + foodItem.getName());
                 foodItems.add(foodItem);
                 if (!isShowingHistoricalData) {
                     try {
@@ -253,7 +249,6 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
     @Override
     public void onItemClick(View view, Food food) {
-        Log.e("On item clicked",food.getName());
         //Save item to database
         if (!isShowingHistoricalData)
             DAOHandler.getDaoHandler(this).getFoodDAOImpl().addOrUpdateFoodItem(food);
@@ -263,7 +258,6 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
     @Override
     public <T> void onQueryReturned(int pos, String url) {
-        Log.e("on Query returned", "Pos:" + pos + " Url:" + url);
 
         foodItems.get(pos).setPhotoUrl(url);
 
@@ -278,7 +272,6 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         //Update request counter and save search results into database when all photo URLs are created
         GoogleQueryCounter --;
         if (GoogleQueryCounter==0){
-            Log.e("Saving search result", "To database");
 
             //Update database with the results
             RealmList<Food> resultList = new RealmList<Food>();
@@ -298,6 +291,7 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
 
             realm.copyToRealmOrUpdate(newSearch);
             realm.commitTransaction();
+            realm.close();
 
 
         }
