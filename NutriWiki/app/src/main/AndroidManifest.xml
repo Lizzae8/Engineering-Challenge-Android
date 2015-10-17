@@ -17,14 +17,18 @@
 
         </activity>
         <activity
-            android:name="com.holmusk.view.activities.MainActivity"
+            android:name="com.holmusk.view.activities.SummaryActivity"
+            android:theme="@style/AppTheme"
+
             android:label="@string/title_activity_summary" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.holmusk.view.activities.DetailActivity"/>
+        <activity android:name="com.holmusk.view.activities.DetailActivity"
+            android:theme="@style/AppTheme"
+            />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="babf598ed0dae934cef19df0afb9d28b6c23b96e" />

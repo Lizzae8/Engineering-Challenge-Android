@@ -20,24 +20,33 @@ import android.transition.Slide;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.holmusk.model.dao.DAOHandler;
 import com.holmusk.model.food.Food;
 import com.holmusk.model.food.Important;
+import com.holmusk.model.food.Portion;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import at.grabner.circleprogress.CircleProgressView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import nutriwiki.holmusk.com.nutriwiki.R;
 
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Bind(R.id.food_name)
     TextView foodName;
@@ -71,8 +80,13 @@ public class DetailActivity extends AppCompatActivity {
     TextView valPotassium;
     @Bind(R.id.image)
     ImageView foodPhoto;
-
-
+    @Bind(R.id.portion_selector)
+    Spinner portionSpinner;
+    @Bind(R.id.val_calories)
+    TextView val_calories;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    ArrayAdapter<String> dataAdapter;
     private static final String EXTRA_IMAGE = "extraImage";
     private static final String EXTRA_TITLE = "extraTitle";
     private static final String EXTRA_FOOD = "extraFood";
@@ -102,7 +116,6 @@ public class DetailActivity extends AppCompatActivity {
         ViewCompat.setTransitionName(findViewById(R.id.app_bar_layout), EXTRA_IMAGE);
         supportPostponeEnterTransition();
 
-
         //Process data
         String foodId = getIntent().getStringExtra(EXTRA_FOOD);
         List<Food> foodList= DAOHandler.getDaoHandler(DetailActivity.this).getFoodDAOImpl().findFoodById(foodId);
@@ -129,11 +142,16 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
-        foodName.setText(food.getName() == null?"":food.getName());
+        foodName.setText(food.getName() == null ? "" : food.getName());
         foodSource.setText(food.getSource()==null?"":"Source: "+food.getSource());
 
+
+        //Setup spinner
+        setUpSpinner();
+
         //Load values
-        setUpValues();
+        setUpValues(0);
+
     }
 
     @Override
@@ -165,7 +183,7 @@ public class DetailActivity extends AppCompatActivity {
         int primary = getResources().getColor(R.color.primary);
         collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(primary));
         collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(primaryDark));
-        updateBackground((FloatingActionButton) findViewById(R.id.fab), palette);
+        updateBackground(fab , palette);
         supportStartPostponedEnterTransition();
     }
 
@@ -181,6 +199,14 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.status_bar));
+        }
+
     }
 
     @Override
@@ -188,16 +214,21 @@ public class DetailActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setUpValues(){
+    private void setUpValues(int position){
         try {
             if (food != null) {
-                Important important = food.getPortions().get(0).getNutrients().getImportant();
+
+                Important important = food.getPortions().get(position).getNutrients().getImportant();
+                if (important.getCalories()!=null)
+                    val_calories.setText(important.getCalories().getValue()+"");
+                else
+                    val_calories.setText("-");
                 if (important.getTotalCarbs()!=null)
                     valCarbs.setText(important.getTotalCarbs().getValue() + " " + important.getTotalCarbs().getUnit());
                 else
@@ -215,8 +246,8 @@ public class DetailActivity extends AppCompatActivity {
                     valSaturatedFat.setText(important.getSaturated().getValue() + " " + important.getSaturated().getUnit());
                 else valSaturatedFat.setText("-");
                 if (important.getMonounsaturated()!=null && important.getPolyunsaturated()!=null)
-                    valUnsaturatedFat.setText(important.getMonounsaturated().getValue() + important.getPolyunsaturated().getValue()
-                        + important.getMonounsaturated().getUnit());
+                    valUnsaturatedFat.setText(String.format( "%.2f", important.getMonounsaturated().getValue() + important.getPolyunsaturated().getValue()
+                            )+important.getMonounsaturated().getUnit()  );
                 else valUnsaturatedFat.setText("-");
                 if (important.getCholesterol()!=null)
                     valCholesterol.setText(important.getCholesterol().getValue() + " " + important.getCholesterol().getUnit());
@@ -236,7 +267,6 @@ public class DetailActivity extends AppCompatActivity {
                 setupCircleView(proteinCircle,proteinPercent );
                 setupCircleView(fatCircle, fatPercent);
                 setupCircleView(carbCircle, calcCarbsPercentage(proteinPercent,fatPercent));
-
 
             }
         } catch (Exception e){
@@ -264,4 +294,49 @@ public class DetailActivity extends AppCompatActivity {
         view.setUnit("%");
         view.setShowUnit(true);
     }
+
+
+    private void setUpSpinner(){
+        List<String> portionArray = new ArrayList <String>();
+
+        List<Portion> portionList = food.getPortions();
+        for (Portion portion:portionList){
+            String portionName = portion.getName();
+            if (portionName!=null)
+                portionArray.add(portionName);
+        }
+
+
+        // Creating adapter for spinner
+         dataAdapter = new ArrayAdapter <String>(this, R.layout.spinner_item, portionArray);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        portionSpinner.setAdapter(dataAdapter);
+
+        // Spinner click listener
+        portionSpinner.setOnItemSelectedListener(this);
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        String item = parent.getItemAtPosition(position).toString();
+        setUpValues(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @OnClick(R.id.fab)
+    public void addFood() {
+        Toast.makeText(this,"Food item added",Toast.LENGTH_LONG).show();
+        onBackPressed();
+    }
+
 }

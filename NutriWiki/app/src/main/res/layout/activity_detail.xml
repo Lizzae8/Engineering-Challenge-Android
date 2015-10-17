@@ -57,34 +57,66 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_medium"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:padding="@dimen/activity_horizontal_margin"
                 app:cardElevation="@dimen/elevation_medium"
                 app:cardUseCompatPadding="true">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/food_name"
+                    android:orientation="vertical"
+                    android:padding="@dimen/activity_horizontal_margin">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:text="Food name"
-                        android:textColor="@color/details_green"
-                        android:textSize="16sp"
-                        />
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/food_source"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Source: fat secret"
-                        android:textSize="10sp"/>
+
+                        <TextView
+                            android:id="@+id/val_calories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/spacing_medium"
+                            android:text="198"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            />
+                        <TextView
+                            android:id="@+id/lbl_kcal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/val_calories"
+                            android:layout_alignRight="@id/val_calories"
+                            android:text="kCal"
+                            android:textSize="8sp"
+                            />
+                        <TextView
+                            android:id="@+id/food_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_toLeftOf="@id/val_calories"
+                            android:maxLines="2"
+                            android:text="Food name"
+                            android:textColor="@color/details_green"
+                            android:textSize="16sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/food_source"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_below="@id/food_name"
+                            android:text="Source: fat secret"
+                            android:textSize="10sp"/>
+                    </RelativeLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -95,9 +127,11 @@
                             android:layout_height="wrap_content"
                             android:text="Portion"/>
                         <Spinner
+                            android:id="@+id/portion_selector"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin">
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:spinnerMode="dropdown">
 
                         </Spinner>
                     </LinearLayout>
@@ -124,8 +158,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:text="Nutrition information"/>
+                        android:text="Nutrition information"
+                        android:textStyle="bold"/>
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -157,8 +191,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:textSize="10sp"
-                                android:text="PROTEIN"/>
+                                android:text="PROTEIN"
+                                android:textSize="10sp"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -185,9 +219,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:textSize="10sp"
+                                android:text="CARBS"
 
-                                android:text="CARBS"/>
+                                android:textSize="10sp"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -215,9 +249,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:textSize="10sp"
+                                android:text="FAT"
 
-                                android:text="FAT"/>
+                                android:textSize="10sp"/>
                         </LinearLayout>
                     </RelativeLayout>
                     <View

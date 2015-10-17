@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.bowyer.app.fabtoolbar.FabToolbar;
@@ -39,7 +43,7 @@ import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnScrollChangedListener;
 import ru.noties.scrollable.ScrollableLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class SummaryActivity extends AppCompatActivity {
     private static final String ARG_LAST_SCROLL_Y = "arg.LastScrollY"; //store last scroll position when activity is stopped
 
     /* Bind views to objects */
@@ -82,16 +86,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-
         setContentView(R.layout.activity_summary);
-
         ButterKnife.bind(this);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setTitle("APP TITLE");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            //Toolbar will now take on default Action Bar characteristics
+        //Toolbar will now take on default Action Bar characteristics
         setSupportActionBar(toolbar);
 
         /* Set up scrollable view pager */
@@ -109,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
         mScrollableLayout.setOnScrollChangedListener(new OnScrollChangedListener() {
             @Override
             public void onScrollChanged(int y, int oldY, int maxY) {
+                //Hide FAB toolbar
+                if (fabToolbar.isFabExpanded()) {
+                    fabToolbar.slideOutFab();
+                }
+
+                //Perform header scroll
                 final float tabsTranslationY;
                 if (y < maxY) {
                     tabsTranslationY = .0F;
@@ -140,6 +145,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.status_bar));
+        }
+
         //Progress bars
         progressBarCarb.setMax(100);
         progressBarCarb.setProgress(50);
@@ -204,9 +216,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (icon.getId()==R.id.btn_search){
-                    Intent searchFood = new Intent(MainActivity.this, SearchFoodActivity.class);
+                if (icon.getId()==R.id.btn_search || icon.getId() == R.id.btn_logfood){
+                    Intent searchFood = new Intent(SummaryActivity.this, SearchFoodActivity.class);
                     startActivity(searchFood);
+                }
+
+                if (icon.getId() == R.id.btn_chart){
+                    Toast.makeText(getApplicationContext(),"Button chart selected",Toast.LENGTH_SHORT).show();
                 }
             }
 

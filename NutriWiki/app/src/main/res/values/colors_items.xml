@@ -45,4 +45,6 @@
     <color name="green_bright">#8DC643</color>
 
     <color name="details_green">#00796B</color>
+    <color name="toolbar_background">#03A9F4</color>
+    <color name="status_bar">#0288D1</color>
 </resources>

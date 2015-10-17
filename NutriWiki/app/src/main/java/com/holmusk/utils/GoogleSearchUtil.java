@@ -1,7 +1,5 @@
 package com.holmusk.utils;
 
-import android.util.Log;
-
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -36,7 +34,7 @@ public class GoogleSearchUtil {
                 .addQueryParameter("as_filetype","jpg,bmp,png")
                 .addQueryParameter("q", "food "+query)
                 .build();
-        Log.e("Url ",url.toString());
+       // Log.e("Url ",url.toString());
         Request request = new Request.Builder()
                 .url(url)
                 .build();

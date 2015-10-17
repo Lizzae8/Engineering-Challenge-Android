@@ -1,6 +1,7 @@
 package com.holmusk.view.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,8 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.holmusk.model.RecentSearch;
@@ -90,6 +93,13 @@ public class SearchFoodActivity extends AppCompatActivity implements FoodListAda
         searchView.setSuggestions(searchArray);
     }
     private void initSearchView(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.status_bar));
+        }
+
         searchView.setHint("Search food");
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
