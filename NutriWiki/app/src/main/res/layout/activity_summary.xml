@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+    <include layout="@layout/toolbar"/>
+    <ru.noties.scrollable.ScrollableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollable_layout"
+        app:scrollable_maxScroll="@dimen/header_height"
+        app:scrollable_considerIdleMillis="125"
+        app:scrollable_friction="0.075"
+        app:scrollable_closeUpAnimationMillis="250"
+        app:scrollable_defaultCloseUp="true"
+        app:scrollable_scrollerFlywheel="false"
+        android:layout_marginTop="?android:attr/actionBarSize"
+
+        app:scrollable_closeUpAnimatorInterpolator="@android:anim/accelerate_decelerate_interpolator">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/toolbar_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include android:id="@+id/header"
+                android:background="@color/google_blue"
+                layout="@layout/header_logo"
+                />
+
+            <!--<ru.noties.scrollable.sample.TabsLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/tabs_height"-->
+            <!--android:background="@color/tabs_background"-->
+            <!--android:id="@+id/tabs" />-->
+            <com.astuetz.PagerSlidingTabStrip
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:pstsPaddingMiddle="true"
+                app:pstsDividerPadding="20dp"
+                app:pstsIndicatorColor="#FFF"
+                app:pstsIndicatorHeight="2dp"
+                app:pstsShouldExpand="true"
+                app:pstsTabPaddingLeftRight="10dp"
+                app:pstsTabTextAllCaps="true"
+                app:pstsTabTextColor="@color/white"
+                android:background="@color/blue_light"
+                android:elevation="5dp"
+                tools:background="#A333"/>
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/tabs_height"
+            android:id="@+id/view_pager" />
+
+    </ru.noties.scrollable.ScrollableLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/floating_action_button"
+        app:backgroundTint="@color/orange500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_add_white_24dp"/>
+
+    <com.bowyer.app.fabtoolbar.FabToolbar
+        android:id="@+id/fabtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:tb_color="@color/orange500"
+        app:tb_container_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/btn_search"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_search"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/btn_logfood"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_logfood"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/btn_chart"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_chart"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </com.bowyer.app.fabtoolbar.FabToolbar>
+
+</android.support.design.widget.CoordinatorLayout>
